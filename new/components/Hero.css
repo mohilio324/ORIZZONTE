@@ -1,0 +1,120 @@
+.hero {
+    position: relative;
+}
+
+.hero-bg {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-top: -50px;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.04) 40%, rgba(0, 0, 0, 0) 70%);
+    z-index: 1;
+}
+
+.hero-content {
+    position: absolute;
+    top: 20%;
+    left: 80px;
+    z-index: 2;
+    max-width: 600px;
+    padding: 0;
+}
+
+.hero-title {
+    font-size: 68px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.15;
+    margin: 0 0 24px 0;
+}
+
+.hero-title .highlight {
+    color: #F5A524;
+}
+
+.hero-description {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin: 0 0 32px 0;
+    max-width: 520px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.btn-primary {
+    background-color: #F5A524;
+    color: #1a1a1a;
+    border: none;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #F5A524;
+}
+
+.btn-secondary {
+    background-color: #E2E8F0;
+    color: #1a1a1a;
+    border: none;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #E2E8F0;
+}
+
+.play-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 1024px) {
+    .hero-title {
+        font-size: 48px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content {
+        left: 30px;
+        right: 30px;
+        top: 25%;
+    }
+    .hero-title {
+        font-size: 32px;
+    }
+    .hero-description {
+        font-size: 18px;
+    }
+    .hero-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
