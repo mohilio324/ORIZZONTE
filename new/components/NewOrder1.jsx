@@ -24,7 +24,7 @@ function NewOrder1() {
 
       <div className="da-grid">
         <button id="" className="">
-          <img src="/images/SOFA.svg" alt="" /> <span>House moving &
+          <img src="images/SOFA.svg" alt="" /> <span>House moving &
 personal effects</span>
         </button>
         <button id="" className="">
