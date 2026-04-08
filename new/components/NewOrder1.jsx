@@ -39,7 +39,7 @@ marchandise</span>
 chemicals</span>
         </button>
         <button id="" className="">
-          <img src="/images/TOW-TRUCK.svg" alt="" /> <span>Towing</span>
+          <img src="images/TOW-TRUCK.svg" alt="" /> <span>Towing</span>
         </button>
         <button id="" className="">
           <img src="/images/CRANE.svg" alt="" /> <span>Construction 
