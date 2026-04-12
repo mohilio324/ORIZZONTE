@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Port+Lligat+Sans&display=swap");
+.wrapper {
+    height: auto;
+    min-height: 100vh;
+    margin: 30px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+}
+
+.da-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
+    padding: 0px;
+    margin: 70px auto 0 0;
+    height: fit-content;
+    width: fit-content;
+    justify-items: start;
+}
+
+.da-grid button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #D9D9D9;
+    border-radius: 23.4px;
+    padding: 30px 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 300px;
+    height: 263.9px;
+    border: 3px solid transparent;
+}
+
+.da-grid button.active {
+    border: 3px solid #ff760d !important;
+    background-color: #e5e5e5;
+    opacity: 1 !important;
+}
+
+.da-grid button.non-active {
+    opacity: 0.5;
+    border: 1px solid #ccc;
+}
+
+.da-grid button.non-active-capacity,
+.da-grid button.active-capacity {
+    width: 152px;
+    height: 65px;
+    border-radius: 6px;
+    justify-content: center;
+}
+
+.da-grid button.active-capacity {
+    border: 3px solid #0D99FF !important;
+    background-color: #e5e5e5;
+    opacity: 1 !important;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    height: fit-content;
+    align-items: flex-start;
+}
+
+.text-area {
+    display: flex;
+    align-self: flex-start;
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px;
+    flex-direction: column;
+    margin-top: 90px;
+}
+
+.text-area span,
+.text-area p {
+    color: black;
+    opacity: 0.66;
+    font-size: 20px;
+}
+
+.New-Order-back {
+    display: flex;
+    align-self: flex-start;
+}
+
+.New-Order-back button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.New-Order-back button span {
+    color: black;
+    font-size: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    margin-left: 15px;
+}
+
+.da-grid span {
+    font-size: 30px;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 10px;
+}
