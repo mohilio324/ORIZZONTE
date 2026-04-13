@@ -15,7 +15,7 @@ export default function Header() {
   return (
     <header className="header">
       <div className="logo">
-        <img src="/images/logo.svg" alt="Moving Company Logo" />
+        <img src='images/logo.svg' alt="Moving Company Logo" />
       </div>
       <nav className="nav">
         <ul className="nav-list">

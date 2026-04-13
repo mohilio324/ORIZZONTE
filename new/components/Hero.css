@@ -67,7 +67,9 @@
 }
 
 .btn-primary:hover {
-    background-color: #F5A524;
+    background-color: #161616;
+    transition: cubic-bezier(0.165, 0.84, 0.44, 1) 3s;
+    color: #F5A524;
 }
 
 .btn-secondary {

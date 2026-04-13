@@ -24,7 +24,7 @@ function NewOrder1() {
 
       <div className="da-grid">
         <button id="" className="">
-          <img src="images/SOFA.svg" alt="" /> <span>House moving &
+          <img src="/images/SOFA.svg" alt="" /> <span>House moving &
 personal effects</span>
         </button>
         <button onClick={() => Navigate('/commercial_merchandise')}id="" className="" >
@@ -39,7 +39,7 @@ marchandise</span>
 chemicals</span>
         </button>
         <button id="" className="" onClick={() => Navigate('/towing')}>
-          <img src="images/TOW-TRUCK.svg" alt="" /> <span>Towing</span>
+          <img src="/images/TOW-TRUCK.svg" alt="" /> <span>Towing</span>
         </button>
         <button id="" className="" onClick={() => Navigate('/construction-materials')}>
           <img src="/images/CRANE.svg" alt="" /> <span>Construction 
