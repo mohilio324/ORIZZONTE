@@ -14,7 +14,7 @@ function CarbonChemicals() {
 
   const TRUCK_TYPES = [
    
-    { id: "camion", label: "citerne", img: "/images/CAMION_CITERNE.svg" },
+    { id: "camion-citerne", label: "citerne", img: "/images/CAMION_CITERNE.svg" },
   
   ];
 
@@ -24,7 +24,7 @@ function CarbonChemicals() {
 
    const CAMION_SUB_CATEGORIES = [
     {
-      id: "camion-large",
+      id: "camion-carburant",
       label: "carburant",
       img: "/images/CAMION_CARBURANT.svg",
     },
@@ -34,7 +34,7 @@ function CarbonChemicals() {
 
 
   const FOURGOUN_CAPACITY = {
-    "camion-large": [{ id: "18000l", label: "18000L" },{ id: "240000l", label: "240000L" },{ id: "270000l", label: "270000L" },{ id: "300000l", label: "300000L" },],
+    "camion-carburant": [{ id: "18000l", label: "18000L" },{ id: "240000l", label: "240000L" },{ id: "270000l", label: "270000L" },{ id: "300000l", label: "300000L" },],
    
     
   };
@@ -46,7 +46,7 @@ function CarbonChemicals() {
       </div>
 
       <div className="New-Order-back">
-        <button>
+        <button onClick={() =>Navigate('/NewOrder1')}>
           <img src="/images/ARROW.svg" alt="" /> <span>New Order</span>
         </button>
       </div>
@@ -79,7 +79,7 @@ function CarbonChemicals() {
         
       
 
-          {selection.type === "camion" && (
+          {selection.type === "camion-citerne" && (
           <div className="da-grid">
             {CAMION_SUB_CATEGORIES.map((van) => (
               <button

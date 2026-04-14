@@ -15,10 +15,10 @@ function NewOrder1() {
       <div className="logo"><img src="/images/logo.svg" alt="" /></div>
 
       <div className="New-Order-back">
-        <button><img src="/images/ARROW.svg" alt="" /> <span>New Order</span></button>
+        <button onClick={()=>Navigate('/')}><img src="/images/ARROW.svg" alt="" /> <span>New Order</span></button>
       </div>
       <div className="text-area">
-        <h2>What do you need help?</h2>
+        <h2>What do you need to ship?</h2>
        <span>choose what kind of cargo you need to ship </span>
       </div>
 

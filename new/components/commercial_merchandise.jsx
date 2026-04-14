@@ -58,12 +58,12 @@ function CommercialMerchandise() {
     {
       id: "camion-large",
       label: "large",
-      img: "/images/HARBINA_GENERAL.svg",
+      img: "/images/CAMION_LARGE.svg",
     },
     {
       id: "camion-small",
       label: "small",
-      img: "/images/HARBINA_GENERAL.svg",
+      img: "/images/CAMION_SMALL.svg",
     },
   ];
 
@@ -71,7 +71,7 @@ function CommercialMerchandise() {
     {
       id: "commercial",
       label: "commercial",
-      img: "/images/HARBINA_GENERAL.svg",
+      img: "/images/COMMERCIAL_GENERAL.svg",
     },
     
   ];
@@ -92,7 +92,7 @@ function CommercialMerchandise() {
       </div>
 
       <div className="New-Order-back">
-        <button>
+        <button onClick={() =>Navigate('/NewOrder1')}>
           <img src="/images/ARROW.svg" alt="" /> <span>New Order</span>
         </button>
       </div>

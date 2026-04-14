@@ -1,95 +1,90 @@
 .why-orizzonte {
-  padding: 4rem 1.5rem 3rem;
-  background-color: #f5f5f5;
-  margin-top: -75px;
+    padding: 4rem 1.5rem 3rem;
+    background-color: #f5f5f5;
+    margin-top: -75px;
 }
 
-
 .why-orizzonte-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  transform: translateX(-100px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    transform: translateX(-100px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
 }
 
 .why-left {
-  max-width: 600px;
+    max-width: 600px;
 }
 
 .why-orizzonte .section-title.left {
-  text-align: left;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, sans-serif;
-  font-size: 64px;
-  line-height: 77px;
-  font-weight: 800;
-  white-space: nowrap;
-  margin-bottom: 50px;
+    text-align: left;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+    font-size: 64px;
+    line-height: 77px;
+    font-weight: 800;
+    white-space: nowrap;
+    margin-bottom: 50px;
+    margin-left: 90px;
 }
 
 .why-prefix {
-  margin-right: 16px;
+    margin-right: 16px;
 }
 
 .question-mark {
-  margin-left: 8px;
+    margin-left: 8px;
 }
 
 .why-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
 .why-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 35px;
-  margin-left: 50px;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 35px;
+    margin-left: 50px;
 }
 
-
-
 .why-icon-circle img {
-  width: 78px;
-  height: 67px;
+    width: 78px;
+    height: 67px;
 }
 
 .why-item-title {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, sans-serif;
-  font-size: 32px;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
 }
 
 .why-item-text {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, sans-serif;
-  font-size: 20px;
-  font-weight: 300;
-  color: #555;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: #555;
 }
 
 .why-item-text--single-line {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 .why-right {
-  display: flex;
-  justify-content: flex-end;
-  flex: 1.2;
-  margin-right: -180px;
-  margin-top: 100px;
+    display: flex;
+    justify-content: flex-end;
+    flex: 1.2;
+    margin-right: -180px;
+    margin-top: 100px;
 }
 
 .why-main-visual {
-  width: 120%;
-  max-width: none;
-  height: auto;
-  transform: translateX(80px);
+    width: 120%;
+    max-width: none;
+    height: auto;
+    transform: translateX(80px);
 }

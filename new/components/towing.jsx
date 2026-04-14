@@ -69,7 +69,7 @@ function Towing() {
       </div>
 
       <div className="New-Order-back">
-        <button>
+        <button onClick={() =>Navigate('/NewOrder1')}>
           <img src="/images/ARROW.svg" alt="" /> <span>New Order</span>
         </button>
       </div>
