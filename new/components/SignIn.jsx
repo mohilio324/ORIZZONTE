@@ -1,13 +1,47 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./SignIn.css";
 
 function SignIn() {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    //handling logic ta3 sign in
-    navigate("/");
+    setError("");
+
+    const payload = {
+      username: formData.FirstName + formData.LastName,
+      email: formData.Email,
+      password: formData.password,
+    };
+
+    try {
+      await axios.post("http://127.0.0.1:8000/api/signup/", payload);
+      navigate("/Login");
+    } catch (err) {
+      const serverError = err.response?.data?.errors;
+      if (serverError) {
+        setError(Object.values(serverError).flat()[0]);
+      } else {
+        setError("Registration failed. Please try again.");
+      }
+      console.log(err.response?.data);
+    }
   };
 
   return (
@@ -25,6 +59,11 @@ function SignIn() {
 
       <div className="login">
         <h2>Create your account</h2>
+        {error && (
+          <p style={{ color: "#ff4d4d", fontSize: "14px", marginBottom: "10px" }}>
+            {error}
+          </p>
+        )}
         <p>
           Join the Orizzonte community and unlock exclusive services,priority{" "}
           <br /> support, and special member offers.
@@ -35,9 +74,11 @@ function SignIn() {
               <label htmlFor="FirstName">First name</label>
               <input
                 type="text"
-                class="input1"
+                className="input1"
                 id="FirstName"
                 name="FirstName"
+                value={formData.FirstName}
+                onChange={handleChange}
                 placeholder="  Enter your first name"
                 required
               />
@@ -50,6 +91,8 @@ function SignIn() {
                 id="LastName"
                 name="LastName"
                 className="input1"
+                value={formData.LastName}
+                onChange={handleChange}
                 placeholder="  Enter your last name"
                 required
               />
@@ -63,6 +106,8 @@ function SignIn() {
               id="Email"
               name="Email"
               className="input2"
+              value={formData.Email}
+              onChange={handleChange}
               placeholder="  Enter your email"
               required
             />
@@ -88,6 +133,8 @@ function SignIn() {
               id="password"
               name="password"
               className="input2"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="   Create password"
               required
             />

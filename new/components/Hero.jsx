@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Hero() {
   const navigate = useNavigate();
+  const userName = localStorage.getItem("userName");
+  
   return (
     <section id="home" className="hero">
       <img
@@ -39,7 +41,7 @@ export default function Hero() {
                 <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon>
               </svg>
             </span>
-            View Process
+            View Process {userName}
           </button>
         </div>
       </div>

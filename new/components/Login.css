@@ -136,6 +136,11 @@ form {
     color: white;
 }
 
+.ROW button:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
 .cmp11 h2 {
     font-size: 40px;
     font-family: "Poppins", sans-serif;
