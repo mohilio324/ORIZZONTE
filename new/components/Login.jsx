@@ -33,7 +33,8 @@ function Login() {
       });
       localStorage.setItem("userName" , credentials.username); // this will be used in hero.jsx to print the user's name
       localStorage.setItem("access_token", response.data.access);
-      localStorage.setItem("refresh_token", response.data.refresh)
+      localStorage.setItem("refresh_token", response.data.refresh);
+      localStorage.setItem("isLoggedin" ,"true");
       
 
       console.log("Login successful!");

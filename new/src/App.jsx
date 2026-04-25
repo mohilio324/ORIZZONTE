@@ -16,6 +16,7 @@ import Water from '../components/water.jsx';
 import ConstructionMaterials from '../components/construction-materials.jsx';
 import Appliances from '../components/appliances.jsx';
 import CarbonChemicals from '../components/carbon-chemicals.jsx';
+import MAP from '../components/MAP.jsx';
 
 import './App.css';
 
@@ -89,7 +90,16 @@ function App() {
         <Footer />
         </div>
       }/>
+
+      <Route path='/map' element={
+        <div>
+        <MAP />
+        <Footer />
+        </div>
+      }/>
       </Routes>
+
+      
    
   );
 }

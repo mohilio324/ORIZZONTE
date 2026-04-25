@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 export default function Hero() {
   const navigate = useNavigate();
   const userName = localStorage.getItem("userName");
-  
+  const isLoggedin = localStorage.getItem("isLoggedin");
   return (
     <section id="home" className="hero">
+      
       <img
         src="/images/homeimage.jpg"
         alt="Home"
@@ -25,7 +26,7 @@ export default function Hero() {
         </p>
         <div className="hero-buttons">
           <button onClick={() => navigate('/NewOrder1')} className="btn-primary">BOOK NOW</button>
-          <button className="btn-secondary">
+          <button className="btn-secondary" >
             <span className="play-icon">
               <svg
                 width="20"
@@ -41,7 +42,7 @@ export default function Hero() {
                 <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"></polygon>
               </svg>
             </span>
-            View Process {userName}
+            View Process {userName} 
           </button>
         </div>
       </div>

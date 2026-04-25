@@ -23,7 +23,7 @@ function NewOrder1() {
       </div>
 
       <div className="da-grid">
-        <button id="" className="">
+        <button id="" className="" onClick={() =>Navigate('/MAP')}>
           <img src="/images/SOFA.svg" alt="" /> <span>House moving &
 personal effects</span>
         </button>
