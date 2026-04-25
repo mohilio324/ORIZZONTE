@@ -1,0 +1,428 @@
+/* Core Page Layout */
+
+.otd-page-container {
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #333;
+    height: 400vh;
+}
+
+
+/* Navigation & Header */
+
+.otd-top-nav {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.otd-logo {
+    height: 40px;
+}
+
+.otd-cancel-link {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0095FF;
+    background: none;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.otd-back-wrapper {
+    margin-bottom: 25px;
+}
+
+.otd-back-btn {
+    border: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.6rem;
+    font-weight: 900;
+    cursor: pointer;
+    padding: 0;
+    color: #000;
+}
+
+.otd-back-btn img {
+    width: 24px;
+}
+
+
+/* Section Headings */
+
+.otd-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.otd-heading h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+.otd-flex-between {
+    justify-content: space-between;
+}
+
+.otd-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* Route Inputs */
+
+.otd-input-section {
+    margin-bottom: 20px;
+}
+
+.otd-field-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.otd-input-flex {
+    display: flex;
+    gap: 10px;
+}
+
+.otd-search-box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background: #ffffff;
+    border: 1.5px solid #EAEAEA;
+    border-radius: 15px;
+}
+
+.otd-search-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 1rem;
+    background: transparent;
+}
+
+.otd-map-action {
+    background: none;
+    border: 1.5px solid #F39C12;
+    color: #F39C12;
+    border-radius: 25px;
+    padding: 0 18px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+
+/* Distance Indicator */
+
+.otd-distance-badge {
+    background: #FFF9F0;
+    border: 1px dashed #F39C12;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    color: #F39C12;
+    text-align: center;
+    font-weight: 700;
+}
+
+.otd-dots {
+    text-align: center;
+    color: #EEE;
+    font-size: 2.5rem;
+    letter-spacing: 10px;
+    margin: 10px 0 25px 0;
+    line-height: 1;
+}
+
+
+/* Date/Time Toggle Pill */
+
+.otd-toggle-box {
+    display: flex;
+    background: #F5F5F5;
+    border-radius: 30px;
+    padding: 4px;
+    border: 1px solid #EAEAEA;
+}
+
+.otd-tgl-btn {
+    border: none;
+    padding: 8px 22px;
+    border-radius: 25px;
+    font-weight: 800;
+    background: transparent;
+    color: #BBB;
+    cursor: pointer;
+}
+
+.otd-tgl-white {
+    background: #ffffff;
+    color: #333;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.otd-tgl-orange {
+    background: #F39C12;
+    color: #ffffff !important;
+}
+
+
+/* Manual Select Boxes (Date & Time) */
+
+.otd-manual-pickers {
+    margin-bottom: 25px;
+}
+
+.otd-custom-select {
+    display: flex;
+    align-items: center;
+    padding: 18px;
+    border: 1.5px solid #EAEAEA;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    background: #fff;
+}
+
+.otd-custom-select img {
+    width: 20px;
+    opacity: 0.5;
+}
+
+.otd-custom-select span {
+    flex: 1;
+    margin-left: 15px;
+    font-weight: 700;
+}
+
+.otd-ph {
+    color: #CCC;
+}
+
+.otd-val {
+    color: #333;
+}
+
+
+/* Modals & Overlays */
+
+.otd-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.otd-calendar-card,
+.otd-time-card,
+.otd-map-card {
+    background: #ffffff;
+    border-radius: 25px;
+    padding: 25px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Leaflet Map Specifics */
+
+.otd-map-card {
+    max-width: 450px;
+    height: 520px;
+    display: flex;
+    flex-direction: column;
+}
+
+.otd-map-wrapper {
+    width: 100%;
+    height: 320px;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 15px 0;
+    border: 1px solid #EAEAEA;
+    z-index: 1;
+}
+
+.otd-map-search-wrapper {
+    display: flex;
+    flex: 1;
+    margin: 0 10px;
+    gap: 8px;
+}
+
+.otd-map-search-wrapper input {
+    flex: 1;
+    padding: 10px;
+    border: 1.5px solid #DDD;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.otd-map-search-wrapper button {
+    background: #F39C12;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.otd-map-done-btn {
+    width: 100%;
+    background: #333;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+
+/* Time Picker (24h) Specifics */
+
+.otd-time-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.otd-dismiss {
+    color: #FF5E5E;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.otd-save {
+    color: #333;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.otd-time-selector-ui {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.otd-time-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.otd-time-column button {
+    background: #F9F9F9;
+    border: 1px solid #EEE;
+    border-radius: 10px;
+    width: 45px;
+    height: 35px;
+    color: #F39C12;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.otd-time-column input {
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    border: 2.5px solid #F0F0F0;
+    border-radius: 20px;
+    outline: none;
+    color: #333;
+}
+
+.otd-time-sep {
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+
+
+/* Calendar Grid Specifics */
+
+.otd-cal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: #000;
+}
+
+.otd-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    text-align: center;
+}
+
+.otd-cal-label {
+    font-size: 0.75rem;
+    color: #AAA;
+    font-weight: 700;
+}
+
+.otd-day {
+    padding: 10px 0;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.otd-day.active {
+    background: #F39C12;
+    color: #ffffff;
+}
+
+
+/* Final Action Button */
+
+.otd-next-btn {
+    width: 100%;
+    background: #F39C12;
+    color: #ffffff;
+    border: none;
+    padding: 15px;
+    border-radius: 15px;
+    font-weight: 900;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 20px;
+}

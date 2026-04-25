@@ -17,6 +17,7 @@ import ConstructionMaterials from '../components/construction-materials.jsx';
 import Appliances from '../components/appliances.jsx';
 import CarbonChemicals from '../components/carbon-chemicals.jsx';
 import MAP from '../components/MAP.jsx';
+import TIME from '../components/order-time-date.jsx';
 
 import './App.css';
 
@@ -94,6 +95,13 @@ function App() {
       <Route path='/map' element={
         <div>
         <MAP />
+        <Footer />
+        </div>
+      }/>
+
+      <Route path='/time' element={
+        <div>
+        <TIME />
         <Footer />
         </div>
       }/>

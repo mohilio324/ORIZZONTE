@@ -26,7 +26,7 @@ export default function Hero() {
         </p>
         <div className="hero-buttons">
           <button onClick={() => navigate('/NewOrder1')} className="btn-primary">BOOK NOW</button>
-          <button className="btn-secondary" >
+          <button className="btn-secondary" onClick={() => navigate('/time')}>
             <span className="play-icon">
               <svg
                 width="20"
