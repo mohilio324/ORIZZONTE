@@ -176,7 +176,7 @@ function OrderTimeDate() {
             <h2>Pickup Date and Time</h2>
           </div>
           <div className="otd-toggle-box">
-            <button className={!isNow ? "otd-tgl-btn otd-tgl-white" : "otd-tgl-btn"} onClick={() => setIsNow(false)}>Later</button>
+            <button className={!isNow ? "otd-tgl-btn otd-tgl-orange" : "otd-tgl-btn"} onClick={() => setIsNow(false)}>Later</button>
             <button className={isNow ? "otd-tgl-btn otd-tgl-orange" : "otd-tgl-btn"} onClick={() => setIsNow(true)}>Now</button>
           </div>
         </div>
