@@ -1,0 +1,25 @@
+.next-step-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 1300px;
+  margin: 50px auto;
+  padding-right: 50px;
+}
+
+.next-btn {
+  background-color: #F39C12;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 15px 60px;
+  font-size: 2rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.next-btn:hover {
+  transform: scale(1.05);
+  background-color: #E67E22;
+}

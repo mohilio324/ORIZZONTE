@@ -1,8 +1,8 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import "./carbon-chemicals.css";
+import "./HeavyEquipment.css";
 
-function CarbonChemicals() {
+function HeavyEquipment() {
   const Navigate = useNavigate();
 
   const handleNewOrder2 = (e) => {
@@ -13,32 +13,31 @@ function CarbonChemicals() {
   const [selection, setSelection] = useState({ type: null, subType: null, capacity: null });
 
   const TRUCK_TYPES = [
-   
-    { id: "camion-citerne", label: "citerne", img: "/images/CAMION_CITERNE.svg" },
-  
+    { id: "camion", label: "Camion", img: "/images/CAMION_GENERAL.svg" },
   ];
 
-  
-
- 
-
-   const CAMION_SUB_CATEGORIES = [
+  const CAMION_SUB_CATEGORIES = [
     {
-      id: "camion-carburant",
-      label: "carburant",
-      img: "/images/CAMION_CARBURANT.svg",
+      id: "camion-large",
+      label: "Grand camion",
+      img: "/images/CAMION_LARGE.svg",
     },
-   
+    {
+      id: "camion-small",
+      label: "Petit camion",
+      img: "/images/CAMION_SMALL.svg",
+    },
   ];
-
-
 
   const TRUCK_CAPACITY = {
-    "camion-carburant": [
-      { id: "18000l", label: "18000L" },
-      { id: "240000l", label: "240000L" },
-      { id: "270000l", label: "270000L" },
-      { id: "300000l", label: "300000L" },
+    "camion-large": [
+      { id: "10t", label: "10T" },
+      { id: "15t", label: "15T" },
+      { id: "20t", label: "20T" },
+    ],
+    "camion-small": [
+      { id: "3.5t", label: "3.5T" },
+      { id: "5t", label: "5T" },
     ],
   };
 
@@ -49,7 +48,7 @@ function CarbonChemicals() {
       </div>
 
       <div className="New-Order-back">
-        <button onClick={() =>Navigate('/NewOrder1')}>
+        <button onClick={() => Navigate('/NewOrder1')}>
           <img src="/images/ARROW.svg" alt="" /> <span>New Order</span>
         </button>
       </div>
@@ -65,7 +64,6 @@ function CarbonChemicals() {
             className={selection.type === truck.id ? "active" : "non-active"}
             key={truck.id}
             onClick={() => {
-              console.log(truck.id);
               setSelection({ type: truck.id, subType: null, capacity: null });
             }}
           >
@@ -80,7 +78,8 @@ function CarbonChemicals() {
             <h2>Category</h2>
             <p>Select truck category</p>
           </div>
-          {selection.type === "camion-citerne" && (
+          
+          {selection.type === "camion" && (
             <div className="da-grid">
               {CAMION_SUB_CATEGORIES.map((van) => (
                 <button
@@ -88,7 +87,6 @@ function CarbonChemicals() {
                   className={selection.subType === van.id ? "active" : "non-active"}
                   key={van.id}
                   onClick={() => {
-                    console.log(van.id);
                     setSelection({ ...selection, subType: van.id, capacity: null });
                   }}
                 >
@@ -137,4 +135,5 @@ function CarbonChemicals() {
     </div>
   );
 }
-export default CarbonChemicals;
+
+export default HeavyEquipment;

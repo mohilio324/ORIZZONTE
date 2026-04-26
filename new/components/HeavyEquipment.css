@@ -1,50 +1,54 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Port+Lligat+Sans&display=swap");
-
 .wrapper {
     min-height: 100vh;
-    padding: 30px;
+    margin: 30px;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-    background-color: #ffffff;
 }
 
 .da-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-    padding: 20px;
+    gap: 35px;
+    padding: 0px;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 70px;
     height: fit-content;
     width: fit-content;
+    justify-items: start;
+    margin-left: 0;
 }
 
 .da-grid button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     background-color: #D9D9D9;
-    border: none;
     border-radius: 23.4px;
     padding: 30px 15px;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.1s ease;
     width: 300px;
     height: 263.9px;
+    border: none;
 }
 
-.da-grid button:hover {
-    transform: scale(1.05);
+.da-grid button.active {
+    border: #0D99FF 3px solid !important;
+}
+
+.da-grid button.non-active {
+    opacity: 0.6;
+    border: 1px solid #ccc;
 }
 
 .logo {
     display: flex;
     justify-content: center;
-    /* border: red 3px solid; */
     width: fit-content;
     height: fit-content;
     align-items: flex-start;
@@ -56,15 +60,12 @@
     font-family: 'Poppins', sans-serif;
     font-size: 30px;
     flex-direction: column;
-    margin-top: 50px;
-    margin-bottom: 30px;
+    margin-top: 90px;
 }
 
 .New-Order-back {
     display: flex;
     align-self: flex-start;
-    width: 100%;
-    margin-bottom: 20px;
 }
 
 .logo img {
@@ -77,8 +78,6 @@
     font-size: 30px;
     font-family: 'Poppins', sans-serif;
     letter-spacing: 0px;
-    font-weight: 600;
-    color: #333;
 }
 
 .text-area span {
@@ -90,13 +89,49 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    size: fit-content;
     border: none;
+    background: none;
 }
 
 .New-Order-back button span {
-    color: #000;
-    font-size: 2rem;
+    color: black;
+    font-size: 50px;
     font-family: 'Poppins', sans-serif;
-    font-weight: 800;
+    font-weight: 700;
+}
+
+.da-grid button.non-active-capacity {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #D9D9D9;
+    border-radius: 6px;
+    padding: 30px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 152px;
+    height: 65px;
+    align-items: center;
+}
+
+.da-grid button.active-capacity {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #D9D9D9;
+    border-radius: 6px;
+    padding: 30px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 152px;
+    height: 65px;
+    border: #0D99FF 3px solid;
+    align-items: center;
+}
+
+.next-step button {
+    background-color: #D9D9D9;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
 }

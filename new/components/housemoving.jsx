@@ -1,8 +1,8 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import "./commercial_merchandise.css";
+import "./housemoving.css";
 
-function CommercialMerchandise() {
+function HouseMoving() {
   const Navigate = useNavigate();
 
   const handleNewOrder2 = (e) => {
@@ -246,4 +246,4 @@ function CommercialMerchandise() {
     </div>
   );
 }
-export default CommercialMerchandise;
+export default HouseMoving;

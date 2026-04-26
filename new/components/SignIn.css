@@ -1,5 +1,6 @@
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
     @import url("https://fonts.googleapis.com/css2?family=Port+Lligat+Sans&display=swap");
+
     .login {
         display: flex;
         align-items: flex-end;
@@ -12,20 +13,20 @@
         flex-direction: column;
         margin-right: 0px;
     }
-    
+
     .NameRow {
         gap: 73px;
         display: flex;
         width: 100%;
     }
-    
+
     .form-group {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         width: 100%;
     }
-    
+
     .login h2 {
         color: rgb(8, 8, 8);
         text-align: left;
@@ -39,7 +40,7 @@
         width: 100%;
         font-weight: bold;
     }
-    
+
     .login p {
         padding-bottom: 20px;
         text-align: left;
@@ -52,25 +53,25 @@
         line-height: 22.5px;
         opacity: 60%;
     }
-    
+
     .radio-item {
         display: flex;
         align-items: center;
         gap: 15px;
     }
-    
+
     label {
         font-family: "Poppins", sans-serif;
         font-size: 18px;
         font-weight: 900;
         letter-spacing: 0px;
     }
-    
+
     .gender-row {
         display: flex;
         gap: 200px;
     }
-    
+
     .btn-sbmt {
         width: 254.7px;
         height: 46.8px;
@@ -84,12 +85,12 @@
         border-style: solid;
         font-weight: bold;
     }
-    
+
     .btn-sbmt:hover {
         opacity: 0.6;
         cursor: pointer;
     }
-    
+
     form {
         display: flex;
         flex-direction: column;
@@ -97,14 +98,14 @@
         max-width: 500px;
         gap: 25px;
     }
-    
+
     .input1 {
         width: 217px;
         height: 45.9px;
         border: #b8b8b8 2px solid;
         outline: none;
     }
-    
+
     .input2 {
         width: 504.9px;
         height: 45.9px;
@@ -114,7 +115,7 @@
         box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.2);
         background-color: #ffffff;
     }
-    
+
     .input1::placeholder {
         color: #b8b8b8;
         font-size: 14.4px;
@@ -122,7 +123,7 @@
         font-family: "Poppins", sans-serif;
         font-weight: bold;
     }
-    
+
     .input2::placeholder {
         color: #b8b8b8;
         font-size: 14.4px;
@@ -130,24 +131,24 @@
         font-family: "Poppins", sans-serif;
         font-weight: bold;
     }
-    
+
     .form-group p {
         font-family: "Poppins", sans-serif;
         font-size: 18px;
         font-weight: 900;
     }
-    
+
     .input1:focus,
     .input2:focus {
         border-color: #f5a524;
         cursor: pointer;
     }
-    
+
     .input1:hover,
     .input2:hover {
         cursor: pointer;
     }
-    
+
     .split-screen {
         display: flex;
         flex-direction: row;
@@ -156,7 +157,7 @@
         margin: 0;
         overflow: hidden;
     }
-    
+
     .image {
         flex: 0.8;
         background-image: url("/images/Group 24.svg");
@@ -170,38 +171,63 @@
         justify-content: flex-end;
         display: flex;
     }
-    
+
     .cmp1 h2 {
         font-size: 40px;
         font-family: "Poppins", sans-serif;
         font-weight: bold;
         opacity: 74%;
     }
-    
+
     .cmp1 {
         display: flex;
         width: 200px;
         justify-content: center;
         transform: translateY(-20px) translateX(155px);
     }
-    
+
     .cmp2 {
         display: flex;
         width: 200px;
         justify-content: center;
         transform: translateX(-45px) translateY(-140px);
     }
-    
+
     .cmp2 button {
         background-color: transparent;
         border: none;
         cursor: pointer;
     }
-    
+
     .cmp2 h2 {
         font-size: 40px;
         font-family: "Poppins", sans-serif;
         font-weight: bold;
         color: rgb(255, 255, 255);
         opacity: 94%;
+    }
+
+    NameRow {
+        display: flex;
+        gap: 20px;
+    }
+
+    .NameRow .form-group {
+        flex: 1;
+    }
+
+    .btn-sbmt {
+        background-color: #F39C12;
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 15px 0;
+        width: 100%;
+        max-width: 300px;
+        margin: 20px auto 0 auto;
+        display: block;
+        font-size: 1.4rem;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
     }

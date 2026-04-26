@@ -6,7 +6,7 @@ import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
-  
+
   // 1. Unified state: ensure keys match what you use in handleLogin
   const [credentials, setCredentials] = useState({
     username: "", // Changed from email to username to match your payload logic
@@ -28,14 +28,14 @@ function Login() {
     try {
       // 2. The keys here (username, password) are what Django SimpleJWT expects
       const response = await axios.post("http://127.0.0.1:8000/api/token/", {
-        username: credentials.username, 
+        username: credentials.username,
         password: credentials.password,
       });
-      localStorage.setItem("userName" , credentials.username); // this will be used in hero.jsx to print the user's name
+      localStorage.setItem("userName", credentials.username); // this will be used in hero.jsx to print the user's name
       localStorage.setItem("access_token", response.data.access);
       localStorage.setItem("refresh_token", response.data.refresh);
-      localStorage.setItem("isLoggedin" ,"true");
-      
+      localStorage.setItem("isLoggedin", "true");
+
 
       console.log("Login successful!");
       navigate("/");
@@ -68,12 +68,12 @@ function Login() {
           <div className="input-wrapper">
             <img src="/images/HEAD.svg" className="input-icon" alt="user" />
             <input
-              type="text" 
+              type="text"
               id="username"
-              name="username" 
+              name="username"
               className="input-login1"
               placeholder="  Enter your username"
-              value={credentials.username} 
+              value={credentials.username}
               onChange={handleChange}
               required
             />
@@ -87,7 +87,7 @@ function Login() {
               name="password"
               className="input-login2"
               placeholder="  Password"
-              value={credentials.password} 
+              value={credentials.password}
               onChange={handleChange}
               required
             />
@@ -100,7 +100,7 @@ function Login() {
             </div>
           </div>
         </form>
-        
+
         <div className="foot">
           <span>Or Login With</span>
           <div className="socials">

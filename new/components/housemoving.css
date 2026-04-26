@@ -1,0 +1,149 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Port+Lligat+Sans&display=swap");
+.wrapper {
+    height: 400vh;
+    /* border: red 3px solid; */
+    margin: 30px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+}
+
+.da-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
+    padding: 0px;
+    margin: 0 auto;
+    /* border: rgb(0, 251, 29) 3px solid; */
+    margin-top: 70px;
+    height: fit-content;
+    width: fit-content;
+    justify-items: start;
+    margin-left: 0;
+}
+
+.da-grid button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* Visuals from your image */
+    background-color: #D9D9D9;
+    border-radius: 23.4px;
+    padding: 30px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 300px;
+    height: 263.9px;
+    /* border: rgb(251, 234, 0) 3px solid !important; */
+}
+
+.da-grid button.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* Visuals from your image */
+    background-color: #D9D9D9;
+    border-radius: 23.4px;
+    padding: 30px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 300px;
+    height: 263.9px;
+    border: #0D99FF 3px solid !important;
+}
+
+.da-grid button.non-active {
+    opacity: 0.6;
+    border: 1px solid #ccc;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    /* border: red 3px solid; */
+    width: fit-content;
+    height: fit-content;
+    align-items: flex-start;
+}
+
+.text-area {
+    display: flex;
+    align-self: flex-start;
+    margin-top: 200px;
+    /* border: yellow 3px solid; */
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px;
+    flex-direction: column;
+    margin-top: 90px;
+}
+
+.New-Order-back {
+    display: flex;
+    align-self: flex-start;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+    margin-top: 0px;
+}
+
+.da-grid span {
+    font-size: 30px;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0px;
+}
+
+.text-area span {
+    color: black;
+    opacity: 66%;
+}
+
+.New-Order-back button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    size: fit-content;
+    border: none;
+}
+
+.New-Order-back button span {
+    color: black;
+    font-size: 50px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+
+.da-grid button.non-active-capacity {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #D9D9D9;
+    border-radius: 6px;
+    padding: 30px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 152px;
+    height: 65px;
+    /* border: rgb(251, 0, 0) 3px solid; */
+    align-items: center;
+}
+
+.da-grid button.active-capacity {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #D9D9D9;
+    border-radius: 6px;
+    padding: 30px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 152px;
+    height: 65px;
+    border: #0D99FF 3px solid;
+    align-items: center;
+}

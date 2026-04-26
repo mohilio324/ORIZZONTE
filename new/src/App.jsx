@@ -18,6 +18,9 @@ import Appliances from '../components/appliances.jsx';
 import CarbonChemicals from '../components/carbon-chemicals.jsx';
 import MAP from '../components/MAP.jsx';
 import TIME from '../components/order-time-date.jsx';
+import HouseMoving from '../components/housemoving.jsx';
+import HeavyEquipment from '../components/HeavyEquipment.jsx';
+
 
 import './App.css';
 
@@ -27,88 +30,101 @@ function App() {
 
 
     <Routes>
-      <Route path='/' element ={
-      <div>
-      <Header />
-      <Hero />
-      <Services />
-      <WhyOrizzonte />
-      <HowItWorks />
-      <Footer />
-      </div>
-     
+      <Route path='/' element={
+        <div>
+          <Header />
+          <Hero />
+          <Services />
+          <WhyOrizzonte />
+          <HowItWorks />
+          <Footer />
+        </div>
 
-      }/>
 
-      <Route path="/SignIn" element={<SignIn />}  />
+      } />
 
-      <Route path="/login" element={<Login />}/>
+      <Route path="/SignIn" element={<SignIn />} />
+
+      <Route path="/login" element={<Login />} />
 
       <Route path='/NewOrder1' element={
         <div>
           <NewOrder1 />
           <Footer />
         </div>
-      }/>
+      } />
       <Route path='/commercial_merchandise' element={
         <div>
-        <CommercialMerchandise />
-        <Footer />
+          <CommercialMerchandise />
+          <Footer />
         </div>
-      }/>
+      } />
 
       <Route path='/towing' element={
         <div>
-        <Towing />
-        <Footer />
+          <Towing />
+          <Footer />
         </div>
-      }/>
+      } />
 
       <Route path='/water' element={
         <div>
-        <Water />
-        <Footer />
+          <Water />
+          <Footer />
         </div>
-      }/>
+      } />
 
       <Route path='/construction-materials' element={
         <div>
-        <ConstructionMaterials />
-        <Footer />
+          <ConstructionMaterials />
+          <Footer />
         </div>
-      }/>
+      } />
 
       <Route path='/carbon-chemicals' element={
         <div>
-        <CarbonChemicals />
-        <Footer />
+          <CarbonChemicals />
+          <Footer />
         </div>
-      }/>
+      } />
 
       <Route path='/appliances' element={
         <div>
-        <Appliances />
-        <Footer />
+          <Appliances />
+          <Footer />
         </div>
-      }/>
+      } />
 
       <Route path='/map' element={
         <div>
-        <MAP />
-        <Footer />
+          <MAP />
+          <Footer />
         </div>
-      }/>
+      } />
 
       <Route path='/time' element={
         <div>
-        <TIME />
-        <Footer />
+          <TIME />
+          <Footer />
         </div>
-      }/>
-      </Routes>
+      } />
 
-      
-   
+      <Route path='/housemoving' element={
+        <div>
+          <HouseMoving />
+          <Footer />
+        </div>
+      } />
+      <Route path='/heavy-equipment' element={
+        <div>
+          <HeavyEquipment />
+          <Footer />
+        </div>
+      } />
+    </Routes>
+
+
+
   );
 }
 
