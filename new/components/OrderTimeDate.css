@@ -1,13 +1,13 @@
 /* Core Page Layout */
 
 .otd-page-container {
-    padding: 20px;
-    max-width: 500px;
+    padding: 30px 20px 40px;
+    max-width: 1200px;
     margin: 0 auto;
     background-color: #ffffff;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     color: #333;
-    height: 400vh;
+    height: auto;
 }
 
 
@@ -16,40 +16,47 @@
 .otd-top-nav {
     display: flex;
     justify-content: center;
+    align-items: center;
     position: relative;
     padding: 10px 0;
-    margin-bottom: 20px;
+    
 }
 
 .otd-logo {
-    height: 40px;
+    width: 560px;
+    height: 270px;
+    object-fit: contain;
+    max-width: 100%;
 }
 
 .otd-cancel-link {
+    font-family: 'poppins', sans-serif;
     position: absolute;
     right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
+    margin-right: -150px;
     color: #0095FF;
     background: none;
     border: none;
-    font-weight: 700;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 36px;
 }
 
 .otd-back-wrapper {
-    margin-bottom: 25px;
+    margin-bottom: 75px;
+    margin-left: -150px;
 }
 
 .otd-back-btn {
+    font-family: 'poppins', sans-serif;
     border: none;
     background: none;
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 1.6rem;
-    font-weight: 900;
+    font-size: 48px;
+    font-weight: 700;
     cursor: pointer;
     padding: 0;
     color: #000;
@@ -62,6 +69,12 @@
 
 /* Section Headings */
 
+.otd-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
 .otd-heading {
     display: flex;
     align-items: center;
@@ -69,10 +82,19 @@
     margin-bottom: 20px;
 }
 
+.otd-heading-icon,
+.otd-title-group img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    margin-left: -150px;
+}
+
 .otd-heading h2 {
-    margin: 0;
-    font-size: 1.3rem;
+    margin-bottom: -20px;
+    font-size: 40px;
     font-weight: 800;
+    color: #000;
 }
 
 .otd-flex-between {
@@ -82,7 +104,7 @@
 .otd-title-group {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 
 
@@ -98,22 +120,39 @@
     gap: 10px;
     font-weight: 700;
     margin-bottom: 10px;
-    font-size: 0.95rem;
+    font-size: 40px;
+    color: #000;
+}
+
+.otd-label-icon {
+    width: 63px;
+    height: 63px;
+    object-fit: contain;
 }
 
 .otd-input-flex {
     display: flex;
-    gap: 10px;
+    gap: 20px;
+    align-items: center;
 }
 
 .otd-search-box {
-    flex: 1;
+    width: 683px;
+    height: 123px;
     display: flex;
     align-items: center;
-    padding: 12px 15px;
+    padding: 0 20px;
     background: #ffffff;
-    border: 1.5px solid #EAEAEA;
-    border-radius: 15px;
+    border: 3px solid #EAEAEA;
+    border-radius: 24px;
+    gap: 18px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.otd-search-icon {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
 }
 
 .otd-search-box input {
@@ -122,18 +161,31 @@
     width: 100%;
     font-size: 1rem;
     background: transparent;
+    color: #333;
 }
 
 .otd-map-action {
-    background: none;
-    border: 1.5px solid #F39C12;
+    width: 355px;
+    height: 77px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #ffffff;
+    border: 3px solid #F39C12;
     color: #F39C12;
     border-radius: 25px;
-    padding: 0 18px;
     font-weight: 700;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 1rem;
     white-space: nowrap;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.otd-map-action img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
 }
 
 
@@ -196,28 +248,45 @@
 
 .otd-manual-pickers {
     margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .otd-custom-select {
+    width: 1109px;
+    max-width: 100%;
+    min-height: 112px;
     display: flex;
     align-items: center;
-    padding: 18px;
-    border: 1.5px solid #EAEAEA;
-    border-radius: 15px;
-    margin-bottom: 12px;
+    padding: 0 24px;
+    border: 3px solid #EAEAEA;
+    border-radius: 24px;
+    margin-bottom: 0;
     cursor: pointer;
     background: #fff;
+    gap: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.otd-custom-select img {
-    width: 20px;
-    opacity: 0.5;
+.otd-custom-icon {
+    width: 63px;
+    height: 63px;
+    object-fit: contain;
 }
 
 .otd-custom-select span {
     flex: 1;
-    margin-left: 15px;
     font-weight: 700;
+    font-size: 1rem;
+}
+
+.otd-ph {
+    color: #CCC;
+}
+
+.otd-val {
+    color: #333;
 }
 
 .otd-ph {

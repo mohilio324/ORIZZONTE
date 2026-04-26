@@ -141,38 +141,51 @@ function OrderTimeDate() {
 
       <section className="otd-content">
         <div className="otd-heading">
-          <img src="/images/ROUTE_ICON.svg" alt="" /> <h2>Route</h2>
+          <img src="/images/solid_route.svg" alt="Route" className="otd-heading-icon" />
+          <h2>Route</h2>
         </div>
 
         {/* Inputs */}
         <div className="otd-input-section">
-          <label className="otd-field-label">Pickup Point</label>
+          <label className="otd-field-label">
+            <img src="/images/maplite.svg" alt="Pickup" className="otd-label-icon" />
+            Pickup Point
+          </label>
           <div className="otd-input-flex">
             <div className="otd-search-box">
-              <input value={pickup} onChange={(e) => setPickup(e.target.value)} placeholder="Address" />
+              <img src="/images/search.svg" alt="Search" className="otd-search-icon" />
+              <input value={pickup} onChange={(e) => setPickup(e.target.value)} placeholder="search for an address" />
             </div>
-            <button className="otd-map-action" onClick={() => {setSelectingType("pickup"); setShowMap(true);}}>Map</button>
+            <button className="otd-map-action" onClick={() => {setSelectingType("pickup"); setShowMap(true);}}>
+              <img src="/images/uiw_map.svg" alt="Map" />
+              <span>select on maps</span>
+            </button>
           </div>
         </div>
 
         <div className="otd-input-section">
-          <label className="otd-field-label">Delivery Point</label>
+          <label className="otd-field-label">
+            <img src="/images/flag.svg" alt="Delivery" className="otd-label-icon" />
+            Delivery Point
+          </label>
           <div className="otd-input-flex">
             <div className="otd-search-box">
-              <input value={delivery} onChange={(e) => setDelivery(e.target.value)} placeholder="Address" />
+              <img src="/images/search.svg" alt="Search" className="otd-search-icon" />
+              <input value={delivery} onChange={(e) => setDelivery(e.target.value)} placeholder="search for an address" />
             </div>
-            <button className="otd-map-action" onClick={() => {setSelectingType("delivery"); setShowMap(true);}}>Map</button>
+            <button className="otd-map-action" onClick={() => {setSelectingType("delivery"); setShowMap(true);}}>
+              <img src="/images/uiw_map.svg" alt="Map" />
+              <span>select on maps</span>
+            </button>
           </div>
         </div>
 
         {distance && <div className="otd-distance-badge">Distance: <strong>{distance} km</strong></div>}
 
-        <div className="otd-dots">...</div>
-
         {/* Pickup Details Heading */}
         <div className="otd-heading otd-flex-between">
           <div className="otd-title-group">
-            <img src="/images/CALENDAR_ICON_ORANGE.svg" alt="" />
+            <img src="/images/agenda.svg" alt="Pickup Date and Time" className="otd-heading-icon" />
             <h2>Pickup Date and Time</h2>
           </div>
           <div className="otd-toggle-box">
@@ -184,12 +197,12 @@ function OrderTimeDate() {
         {/* Manual Display Boxes */}
         <div className="otd-manual-pickers">
           <div className="otd-custom-select" onClick={() => !isNow && setShowDatePicker(true)}>
-            <img src="/images/CALENDAR_GREY.svg" alt="" />
+            <img src="/images/agenda1.svg" alt="Date icon" className="otd-custom-icon" />
             <span className={!manualDate ? "otd-ph" : "otd-val"}>{manualDate || "Enter the Date"}</span>
           </div>
 
           <div className="otd-custom-select" onClick={() => !isNow && setShowTimePicker(true)}>
-            <img src="/images/CLOCK_GREY.svg" alt="" />
+            <img src="/images/clock1.svg" alt="Time icon" className="otd-custom-icon" />
             <span className="otd-val">{h}:{m}</span>
           </div>
         </div>

@@ -2,11 +2,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Port+Lligat+Sans&display=swap");
 
 .wrapper {
-    min-height: 100vh;
-    padding: 30px;
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
+    
+    padding: 70px;
+    display: grid;
+    justify-content: center;
+    
     align-items: center;
     background-color: #ffffff;
 }

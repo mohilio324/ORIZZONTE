@@ -76,25 +76,13 @@ function HouseMoving() {
     
   ];
 
-  const TRUCK_CAPACITY = {
+  const FOURGOUN_CAPACITY = {
     "fourgon-long": [{ id: "2t", label: "2T" }],
     "fourgon-medium": [{ id: "1.5t", label: "1.5T" }],
     "fourgon-short": [{ id: "1.2t", label: "1.2T" }],
     "harbina-large": [{ id: "1.5t", label: "1.5T" }],
-    "harbina-small": [{ id: "1t", label: "1T" }],
-    "camion-large": [
-      { id: "10t", label: "10T" },
-      { id: "15t", label: "15T" },
-      { id: "20t", label: "20T" },
-    ],
-    "camion-small": [
-      { id: "3.5t", label: "3.5T" },
-      { id: "5t", label: "5T" },
-    ],
-    "commercial": [
-      { id: "1t", label: "1T" },
-      { id: "2t", label: "2T" },
-    ],
+    "harbina-small": [{ id: "1t", label: "1T" } ,  ],
+    
   };
 
   return (
@@ -129,120 +117,120 @@ function HouseMoving() {
         ))}
       </div>
 
-      {selection.type && (
-        <div className="sub-category">
-          <div className="text-area">
-            <h2>Category</h2>
-            <p>Select truck category</p>
+      <div className="sub-category">
+        <div className="text-area">
+          <h2>Category</h2>
+          <p>Select truck category</p>
+        </div>
+        {selection.type === "fourgon" && (
+          <div className="da-grid">
+            {FOURGON_SUB_CATEGORIES.map((van) => (
+              <button
+                id=""
+                className={selection.subType === van.id ? "active" : "non-active"}
+                key={van.id}
+                onClick={() => {
+                  console.log(van.id);
+                  setSelection({ ...selection, subType: van.id, capacity: null });
+                }}
+              >
+                <img src={van.img} alt="" /> <span>{van.label}</span>
+              </button>
+            ))}
           </div>
-          {selection.type === "fourgon" && (
-            <div className="da-grid">
-              {FOURGON_SUB_CATEGORIES.map((van) => (
-                <button
-                  id=""
-                  className={selection.subType === van.id ? "active" : "non-active"}
-                  key={van.id}
-                  onClick={() => {
-                    console.log(van.id);
-                    setSelection({ ...selection, subType: van.id, capacity: null });
-                  }}
-                >
-                  <img src={van.img} alt="" /> <span>{van.label}</span>
-                </button>
-              ))}
-            </div>
-          )}
+        )}
 
-          {selection.type === "harbina" && (
-            <div className="da-grid">
-              {HARBINA_SUB_CATEGORIES.map((van) => (
-                <button
-                  id=""
-                  className={selection.subType === van.id ? "active" : "non-active"}
-                  key={van.id}
-                  onClick={() => {
-                    console.log(van.id);
-                    setSelection({ ...selection, subType: van.id, capacity: null });
-                  }}
-                >
-                  <img src={van.img} alt="" /> <span>{van.label}</span>
-                </button>
-              ))}
-            </div>
-          )}
+        {selection.type === "harbina" && (
+          <div className="da-grid">
+            {HARBINA_SUB_CATEGORIES.map((van) => (
+              <button
+                id=""
+                className={selection.subType === van.id ? "active" : "non-active"}
+                key={van.id}
+                onClick={() => {
+                  console.log(van.id);
+                  setSelection({ ...selection, subType: van.id, capacity: null });
+                }}
+              >
+                <img src={van.img} alt="" /> <span>{van.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
 
           {selection.type === "camion" && (
-            <div className="da-grid">
-              {CAMION_SUB_CATEGORIES.map((van) => (
-                <button
-                  id=""
-                  className={selection.subType === van.id ? "active" : "non-active"}
-                  key={van.id}
-                  onClick={() => {
-                    console.log(van.id);
-                    setSelection({ ...selection, subType: van.id, capacity: null });
-                  }}
-                >
-                  <img src={van.img} alt="" /> <span>{van.label}</span>
-                </button>
-              ))}
-            </div>
-          )}
-
-          {selection.type === "commercial" && (
-            <div className="da-grid">
-              {COMMERCIAL_SUB_CATEGORIES.map((van) => (
-                <button
-                  id=""
-                  className={selection.subType === van.id ? "active" : "non-active"}
-                  key={van.id}
-                  onClick={() => {
-                    console.log(van.id);
-                    setSelection({ ...selection, subType: van.id, capacity: null });
-                  }}
-                >
-                  <img src={van.img} alt="" /> <span>{van.label}</span>
-                </button>
-              ))}
-            </div>
-          )}
-
-          {selection.subType && (
-            <>
-              <div className="text-area">
-                <h2>Capacity</h2>
-                <p>Select desired capacity</p>
-              </div>
-              <div className="da-grid">
-                {TRUCK_CAPACITY[selection.subType]?.map((van_capacity) => (
-                  <button
-                    id=""
-                    className={
-                      selection.capacity === van_capacity.id
-                        ? "active-capacity"
-                        : "non-active-capacity"
-                    }
-                    key={van_capacity.id}
-                    onClick={() => {
-                      setSelection({ ...selection, capacity: van_capacity.id });
-                    }}
-                  >
-                    <span>{van_capacity.label}</span>
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-
-          {selection.capacity && (
-            <div className="next-step-container">
-              <button className="next-btn" onClick={() => Navigate('/time')}>
-                Next
+          <div className="da-grid">
+            {CAMION_SUB_CATEGORIES.map((van) => (
+              <button
+                id=""
+                className={selection.subType === van.id ? "active" : "non-active"}
+                key={van.id}
+                onClick={() => {
+                  console.log(van.id);
+                  setSelection({ ...selection, subType: van.id, capacity: null });
+                }}
+              >
+                <img src={van.img} alt="" /> <span>{van.label}</span>
               </button>
-            </div>
-          )}
+            ))}
+          </div>
+        )}
+
+        {selection.type === "commercial" && (
+          <div className="da-grid">
+            {COMMERCIAL_SUB_CATEGORIES.map((van) => (
+              <button
+                id=""
+                className={selection.subType === van.id ? "active" : "non-active"}
+                key={van.id}
+                onClick={() => {
+                  console.log(van.id);
+                  setSelection({ ...selection, subType: van.id, capacity: null });
+                }}
+              >
+                <img src={van.img} alt="" /> <span>{van.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className="text-area">
+          <h2>Capacity</h2>
+          <p>Select desired capacity</p>
         </div>
-      )}
+
+
+     
+        {selection.subType && (
+          <div className="da-grid">
+            {FOURGOUN_CAPACITY[selection.subType]?.map((van_capacity) => (
+              
+              <button
+                id=""
+                className={
+                  selection.capacity === van_capacity.id ? "active-capacity" : "non-active-capacity"
+                }
+                key={van_capacity.id}
+                onClick={() => {
+                  setSelection({ ...selection, ...selection, capacity: van_capacity.id });
+                  console.log(
+                    "the type:" +
+                      selection.type +
+                      "\n" +
+                      "the sub type:" +
+                      selection.subType +
+                      "\n" +
+                      "the capacitty:" +
+                      van_capacity.id
+                  );
+                }}
+              >
+                <span>{van_capacity.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
