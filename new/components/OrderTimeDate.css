@@ -485,12 +485,16 @@
 
 /* Final Action Button */
 
+.otd-action {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .otd-next-btn {
-    width: 100%;
     background: #F39C12;
     color: #ffffff;
     border: none;
-    padding: 15px;
+    padding: 15px 50px;
     border-radius: 15px;
     font-weight: 900;
     font-size: 1.2rem;

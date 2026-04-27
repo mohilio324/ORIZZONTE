@@ -24,6 +24,7 @@ import HeavyEquipment from '../components/HeavyEquipment.jsx';
 import OrderSummary from '../components/OrderSummary.jsx';
 import OrderConfirmation from '../components/OrderConfirmation.jsx';
 import { OrderProvider } from './context/OrderContext.jsx';
+import ScrollToTop from '../components/ScrollToTop.jsx';
 
 
 import './App.css';
@@ -32,6 +33,7 @@ import './App.css';
 function App() {
   return (
     <OrderProvider>
+      <ScrollToTop />
       <Routes>
       <Route path='/' element={
         <div>

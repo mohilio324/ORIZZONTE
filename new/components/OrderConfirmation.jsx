@@ -3,16 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useOrderContext } from '../src/context/OrderContext.jsx';
 import './OrderConfirmation.css';
+import SendOrder from './SendOrder.jsx';
 
 export default function OrderConfirmation() {
   const navigate = useNavigate();
   const { orderData } = useOrderContext();
 
   // Create a display string for dateTime
-  const displayDateTime = orderData.isNow 
-    ? "Now" 
-    : (orderData.manualDate && orderData.manualTime) 
-      ? `${orderData.manualDate} ${orderData.manualTime}` 
+  const displayDateTime = orderData.isNow
+    ? "Now"
+    : (orderData.manualDate && orderData.manualTime)
+      ? `${orderData.manualDate} ${orderData.manualTime}`
       : "Not scheduled";
 
   // Fallback mock data if not navigated with state
@@ -31,11 +32,11 @@ export default function OrderConfirmation() {
   const handleConfirmOrder = async () => {
     try {
       const accessToken = localStorage.getItem("access_token");
-      
+
       console.log("Submitting order data:", submitData);
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/orders/", 
+        "http://127.0.0.1:8000/api/orders/",
         submitData,
         {
           headers: {
@@ -61,17 +62,17 @@ export default function OrderConfirmation() {
       <header className="oc-top-nav">
         <div style={{ width: '50px' }}></div>
         <img src="/images/logo.svg" alt="Orizzonte" className="oc-logo" />
-        <button className="oc-cancel-link" onClick={() => navigate("/")}>cancel</button>
+        <button className="oc-cancel-link" onClick={() => navigate("/sendorder")}>cancel</button>
       </header>
 
       <div className="oc-back-wrapper">
-        <button className="oc-back-btn" onClick={() => navigate('/order-summary')}>
+        <button className="oc-back-btn" onClick={() => navigate('/sendorder')}>
           <img src="/images/ARROW.svg" alt="Back" /> <span>New order</span>
         </button>
       </div>
 
       <main className="oc-main-content">
-        
+
         {/* Section 1: Trip Route */}
         <section className="oc-section">
           <div className="oc-section-header">
@@ -81,13 +82,13 @@ export default function OrderConfirmation() {
           <div className="oc-route-timeline">
             <div className="oc-route-point">
               <div className="oc-route-icon">
-                <span style={{fontSize: '20px', lineHeight: '1'}}>🎯</span>
+                <span style={{ fontSize: '20px', lineHeight: '1' }}>🎯</span>
               </div>
               <span className="oc-route-text">{submitData.pickup}</span>
             </div>
             <div className="oc-route-point">
               <div className="oc-route-icon">
-                <span style={{color: '#F5A623', fontSize: '20px', lineHeight: '1'}}>🔸</span>
+                <span style={{ color: '#F5A623', fontSize: '20px', lineHeight: '1' }}>🔸</span>
               </div>
               <span className="oc-route-text">{submitData.delivery}</span>
             </div>
@@ -103,11 +104,11 @@ export default function OrderConfirmation() {
           <div className="oc-vehicle-grid">
             <div className="oc-detail-block" style={{ gridColumn: '1 / -1' }}>
               <span className="oc-detail-label">Truck Type</span>
-              <span className="oc-detail-value" style={{paddingLeft: '2rem'}}>{submitData.truckType}</span>
+              <span className="oc-detail-value" style={{ paddingLeft: '2rem' }}>{submitData.truckType}</span>
             </div>
             <div className="oc-detail-block">
               <span className="oc-detail-label">Truck model</span>
-              <span className="oc-detail-value" style={{paddingLeft: '2rem'}}>{submitData.truckModel}</span>
+              <span className="oc-detail-value" style={{ paddingLeft: '2rem' }}>{submitData.truckModel}</span>
             </div>
             <div className="oc-detail-block">
               <span className="oc-detail-label">Weight</span>
@@ -132,11 +133,11 @@ export default function OrderConfirmation() {
             <div className="oc-stats-col">
               <div className="oc-detail-block">
                 <span className="oc-detail-label">Helpers</span>
-                <span className="oc-detail-value" style={{paddingLeft: '1rem'}}>{submitData.helpers}</span>
+                <span className="oc-detail-value" style={{ paddingLeft: '1rem' }}>{submitData.helpers}</span>
               </div>
               <div className="oc-detail-block">
                 <span className="oc-detail-label">Date and time</span>
-                <span className="oc-detail-value" style={{fontSize: '0.9rem'}}>{submitData.dateTime}</span>
+                <span className="oc-detail-value" style={{ fontSize: '0.9rem' }}>{submitData.dateTime}</span>
               </div>
             </div>
           </div>

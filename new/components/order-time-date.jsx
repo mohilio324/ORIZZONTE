@@ -80,6 +80,7 @@ function OrderTimeDate() {
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [selectingType, setSelectingType] = useState(null);
+  const [errorMsg, setErrorMsg] = useState("");
 
   // Map Helpers
   const [mapCenter, setMapCenter] = useState([28.0339, 1.6596]);
@@ -128,6 +129,11 @@ function OrderTimeDate() {
   };
 
   const handleNext = () => {
+    if (!pickup || !delivery || (!isNow && !manualDate)) {
+      setErrorMsg("Please fill all the required information (Pickup, Delivery, and Date/Time).");
+      return;
+    }
+    
     updateOrderData({
       pickup,
       delivery,
@@ -148,7 +154,7 @@ function OrderTimeDate() {
       </header>
 
       <div className="otd-back-wrapper">
-        <button className="otd-back-btn" onClick={() => Navigate(-1)}>
+        <button className="otd-back-btn" onClick={() => Navigate('/NewOrder1')}>
           <img src="/images/ARROW.svg" alt="" /> <span>New order</span>
         </button>
       </div>
@@ -292,6 +298,25 @@ function OrderTimeDate() {
         <div className="otd-action">
           <button className="otd-next-btn" onClick={handleNext}>Next</button>
         </div>
+
+        {/* ERROR MODAL */}
+        {errorMsg && (
+          <div className="otd-modal-overlay">
+            <div className="otd-calendar-card" style={{textAlign: "center", padding: "30px", maxWidth: "400px"}}>
+              <div style={{fontSize: "40px", marginBottom: "10px"}}>⚠️</div>
+              <h3 style={{color: "#FF5E5E", marginBottom: "15px", fontSize: "24px", fontWeight: "800"}}>Missing Information</h3>
+              <p style={{marginBottom: "25px", fontWeight: "600", fontSize: "16px", color: "#333"}}>{errorMsg}</p>
+              <button 
+                className="otd-map-done-btn" 
+                onClick={() => setErrorMsg("")}
+                style={{backgroundColor: "#F39C12", fontSize: "18px"}}
+              >
+                Got it
+              </button>
+            </div>
+          </div>
+        )}
+
       </section>
     </div>
   );
