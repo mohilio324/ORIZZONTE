@@ -44,6 +44,9 @@ export default function Hero() {
             </span>
             View Process {userName} 
           </button>
+          <button onClick={() => navigate('/admin')} className="btn-primary" style={{ backgroundColor: '#2d292b', marginLeft: '10px' }}>
+            TEST ADMIN DASHBOARD
+          </button>
         </div>
       </div>
     </section>

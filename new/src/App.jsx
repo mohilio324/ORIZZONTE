@@ -23,6 +23,7 @@ import HouseMoving from '../components/housemoving.jsx';
 import HeavyEquipment from '../components/HeavyEquipment.jsx';
 import OrderSummary from '../components/OrderSummary.jsx';
 import OrderConfirmation from '../components/OrderConfirmation.jsx';
+import AdminDashboard from '../components/AdminDashboard.jsx';
 import { OrderProvider } from './context/OrderContext.jsx';
 
 
@@ -142,6 +143,7 @@ function App() {
           <OrderConfirmation />
         </div>
       } />
+      <Route path='/admin' element={<AdminDashboard />} />
     </Routes>
     </OrderProvider>
   );
