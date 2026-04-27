@@ -16,6 +16,7 @@ L.Icon.Default.mergeOptions({
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useOrderContext } from "../src/context/OrderContext.jsx";
 import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -60,6 +61,7 @@ function ChangeView({ center }) {
 
 function OrderTimeDate() {
   const Navigate = useNavigate();
+  const { updateOrderData } = useOrderContext();
 
   // Core Data (cap)
   const [pickup, setPickup] = useState("");
@@ -122,8 +124,16 @@ function OrderTimeDate() {
   };
 
   const handleNext = () => {
-    const cap = { pickup, delivery, distance, isNow, manualDate, manualTime: `${h}:${m}` };
-    console.log("Registered Order Data (cap):", cap);
+    updateOrderData({
+      pickup,
+      delivery,
+      distance,
+      isNow,
+      manualDate,
+      manualTime: `${h}:${m}`
+    });
+    console.log("Proceeding to Order Summary");
+    Navigate('/order-summary');
   };
 
   return (

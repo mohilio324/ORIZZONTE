@@ -1,9 +1,11 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useOrderContext } from "../src/context/OrderContext.jsx";
 import "./housemoving.css";
 
 function HouseMoving() {
   const Navigate = useNavigate();
+  const { updateOrderData } = useOrderContext();
 
   const handleNewOrder2 = (e) => {
     e.preventDefault();
@@ -76,13 +78,32 @@ function HouseMoving() {
     
   ];
 
-  const FOURGOUN_CAPACITY = {
+  const TRUCK_CAPACITY = {
     "fourgon-long": [{ id: "2t", label: "2T" }],
     "fourgon-medium": [{ id: "1.5t", label: "1.5T" }],
     "fourgon-short": [{ id: "1.2t", label: "1.2T" }],
     "harbina-large": [{ id: "1.5t", label: "1.5T" }],
-    "harbina-small": [{ id: "1t", label: "1T" } ,  ],
-    
+    "harbina-small": [{ id: "1t", label: "1T" }],
+    "camion-large": [
+      { id: "10t", label: "10T" },
+      { id: "15t", label: "15T" },
+      { id: "20t", label: "20T" },
+    ],
+    "camion-small": [
+      { id: "3.5t", label: "3.5T" },
+      { id: "5t", label: "5T" },
+    ],
+    "commercial": [
+      { id: "1t", label: "1T" },
+      { id: "2t", label: "2T" },
+    ],
+    "camion-carburant": [
+      { id: "18000l", label: "18000L" },
+      { id: "240000l", label: "240000L" },
+      { id: "270000l", label: "270000L" },
+      { id: "300000l", label: "300000L" },
+    ],
+    "porte-long": [{ id: "2t", label: "2T" }],
   };
 
   return (
@@ -203,7 +224,7 @@ function HouseMoving() {
      
         {selection.subType && (
           <div className="da-grid">
-            {FOURGOUN_CAPACITY[selection.subType]?.map((van_capacity) => (
+            {TRUCK_CAPACITY[selection.subType]?.map((van_capacity) => (
               
               <button
                 id=""
@@ -230,6 +251,21 @@ function HouseMoving() {
             ))}
           </div>
         )}
+
+          {selection.capacity && (
+            <div className="next-step-container">
+              <button className="next-btn" onClick={() => {
+                updateOrderData({
+                  truckType: selection.type,
+                  truckModel: selection.subType,
+                  weight: selection.capacity
+                });
+                Navigate('/time');
+              }}>
+                Next
+              </button>
+            </div>
+          )}
       </div>
     </div>
   );
