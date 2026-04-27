@@ -21,6 +21,9 @@ import TIME from '../components/order-time-date.jsx';
 import SendOrder from '../components/SendOrder.jsx';
 import HouseMoving from '../components/housemoving.jsx';
 import HeavyEquipment from '../components/HeavyEquipment.jsx';
+import OrderSummary from '../components/OrderSummary.jsx';
+import OrderConfirmation from '../components/OrderConfirmation.jsx';
+import { OrderProvider } from './context/OrderContext.jsx';
 
 
 import './App.css';
@@ -28,9 +31,8 @@ import './App.css';
 
 function App() {
   return (
-
-
-    <Routes>
+    <OrderProvider>
+      <Routes>
       <Route path='/' element={
         <div>
           <Header />
@@ -129,10 +131,19 @@ function App() {
           <Footer />
         </div>
       } />
+      <Route path='/order-summary' element={
+        <div>
+          <OrderSummary />
+          <Footer />
+        </div>
+      } />
+      <Route path='/order-confirmation' element={
+        <div>
+          <OrderConfirmation />
+        </div>
+      } />
     </Routes>
-
-
-
+    </OrderProvider>
   );
 }
 

@@ -1,0 +1,344 @@
+/* OrderSummary.css */
+
+.order-summary-container {
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+/* Top Navigation */
+.os-top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: white;
+}
+
+.os-logo {
+  margin: 0 auto;
+}
+
+.os-cancel-link {
+  background: none;
+  border: none;
+  color: #338df3;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  text-transform: lowercase;
+}
+
+/* Back Wrapper */
+.os-back-wrapper {
+  padding: 1.5rem 2rem;
+}
+
+.os-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #000;
+  cursor: pointer;
+}
+
+.os-back-btn img {
+  height: 16px;
+}
+
+/* Main Content Layout */
+.os-main-content {
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* Sections */
+.os-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.os-section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.os-icon-wrapper {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.os-icon-wrapper.orange-bg {
+  background-color: #FBB03B;
+}
+
+.os-section-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: #000;
+}
+
+.os-subtext {
+  font-size: 0.9rem;
+  color: #888;
+  margin: 0;
+}
+
+.os-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+/* Cargo Details Textarea */
+.os-textarea {
+  width: 100%;
+  min-height: 150px;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  outline: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.os-textarea::placeholder {
+  color: #ccc;
+}
+
+/* Loading Helpers Counter */
+.os-counter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.os-counter-btn {
+  background-color: #FBB03B;
+  border: none;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.os-counter-btn:active {
+  transform: scale(0.95);
+}
+
+.os-counter-icon {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.os-counter-input {
+  width: 100%;
+  max-width: 400px;
+  height: 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #666;
+  outline: none;
+}
+
+/* Divider */
+.os-divider {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 0.5rem 0;
+}
+
+/* Your Informations Section */
+.os-info-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .os-info-grid {
+    flex-direction: column;
+  }
+}
+
+.os-phone-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.os-phone-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.os-phone-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 50px;
+}
+
+.os-phone-prefix {
+  padding: 0 1rem;
+  color: #333;
+  font-weight: 600;
+  border-right: 1px solid #ccc;
+  background-color: #f9f9f9;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.os-phone-input {
+  flex: 1;
+  border: none;
+  padding: 0 1rem;
+  font-size: 1rem;
+  outline: none;
+  letter-spacing: 2px;
+  width: 100%;
+}
+
+.os-phone-input::placeholder {
+  color: #aaa;
+  letter-spacing: normal;
+}
+
+.os-confirmation-group {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.os-confirmation-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.os-cards-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .os-cards-wrapper {
+    flex-direction: column;
+  }
+}
+
+.os-confirm-card {
+  flex: 1;
+  border: 2px solid #eaeaea;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: white;
+}
+
+.os-confirm-card:hover {
+  border-color: #d0d0d0;
+}
+
+.os-confirm-card.selected {
+  border-color: #FBB03B;
+  background-color: #fffaf0;
+}
+
+.os-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #000;
+}
+
+.os-card-desc {
+  font-size: 0.8rem;
+  color: #777;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.whatsapp-icon {
+  color: #25D366;
+}
+
+/* Action Button */
+.os-action-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.os-send-btn {
+  background-color: #FBB03B;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 0.8rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(251, 176, 59, 0.3);
+}
+
+.os-send-btn:hover {
+  background-color: #e59e2f;
+  transform: translateY(-2px);
+}
+
+.os-send-btn:active {
+  transform: translateY(0);
+}

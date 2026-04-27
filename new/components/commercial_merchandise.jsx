@@ -1,9 +1,11 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useOrderContext } from "../src/context/OrderContext.jsx";
 import "./commercial_merchandise.css";
 
 function CommercialMerchandise() {
   const Navigate = useNavigate();
+  const { updateOrderData } = useOrderContext();
 
   const handleNewOrder2 = (e) => {
     e.preventDefault();
@@ -95,6 +97,13 @@ function CommercialMerchandise() {
       { id: "1t", label: "1T" },
       { id: "2t", label: "2T" },
     ],
+    "camion-carburant": [
+      { id: "18000l", label: "18000L" },
+      { id: "240000l", label: "240000L" },
+      { id: "270000l", label: "270000L" },
+      { id: "300000l", label: "300000L" },
+    ],
+    "porte-long": [{ id: "2t", label: "2T" }],
   };
 
   return (
@@ -236,7 +245,14 @@ function CommercialMerchandise() {
 
           {selection.capacity && (
             <div className="next-step-container">
-              <button className="next-btn" onClick={() => Navigate('/time')}>
+              <button className="next-btn" onClick={() => {
+                updateOrderData({
+                  truckType: selection.type,
+                  truckModel: selection.subType,
+                  weight: selection.capacity
+                });
+                Navigate('/time');
+              }}>
                 Next
               </button>
             </div>
