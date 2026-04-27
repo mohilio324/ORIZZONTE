@@ -13,22 +13,22 @@ function CarbonChemicals() {
   const [selection, setSelection] = useState({ type: null, subType: null, capacity: null });
 
   const TRUCK_TYPES = [
-   
+
     { id: "camion-citerne", label: "citerne", img: "/images/CAMION_CITERNE.svg" },
-  
+
   ];
 
-  
 
- 
 
-   const CAMION_SUB_CATEGORIES = [
+
+
+  const CAMION_SUB_CATEGORIES = [
     {
       id: "camion-carburant",
       label: "carburant",
       img: "/images/CAMION_CARBURANT.svg",
     },
-   
+
   ];
 
 
@@ -49,7 +49,7 @@ function CarbonChemicals() {
       </div>
 
       <div className="New-Order-back">
-        <button onClick={() =>Navigate('/NewOrder1')}>
+        <button onClick={() => Navigate('/NewOrder1')}>
           <img src="/images/ARROW.svg" alt="" /> <span>New Order</span>
         </button>
       </div>

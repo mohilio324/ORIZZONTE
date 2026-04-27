@@ -78,7 +78,7 @@ function HeavyEquipment() {
             <h2>Category</h2>
             <p>Select truck category</p>
           </div>
-          
+
           {selection.type === "camion" && (
             <div className="da-grid">
               {CAMION_SUB_CATEGORIES.map((van) => (

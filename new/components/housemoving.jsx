@@ -54,7 +54,7 @@ function HouseMoving() {
     },
   ];
 
-   const CAMION_SUB_CATEGORIES = [
+  const CAMION_SUB_CATEGORIES = [
     {
       id: "camion-large",
       label: "large",
@@ -73,7 +73,7 @@ function HouseMoving() {
       label: "commercial",
       img: "/images/COMMERCIAL_GENERAL.svg",
     },
-    
+
   ];
 
   const FOURGOUN_CAPACITY = {
@@ -81,8 +81,8 @@ function HouseMoving() {
     "fourgon-medium": [{ id: "1.5t", label: "1.5T" }],
     "fourgon-short": [{ id: "1.2t", label: "1.2T" }],
     "harbina-large": [{ id: "1.5t", label: "1.5T" }],
-    "harbina-small": [{ id: "1t", label: "1T" } ,  ],
-    
+    "harbina-small": [{ id: "1t", label: "1T" },],
+
   };
 
   return (
@@ -92,7 +92,7 @@ function HouseMoving() {
       </div>
 
       <div className="New-Order-back">
-        <button onClick={() =>Navigate('/NewOrder1')}>
+        <button onClick={() => Navigate('/NewOrder1')}>
           <img src="/images/ARROW.svg" alt="" /> <span>New Order</span>
         </button>
       </div>
@@ -158,7 +158,7 @@ function HouseMoving() {
           </div>
         )}
 
-          {selection.type === "camion" && (
+        {selection.type === "camion" && (
           <div className="da-grid">
             {CAMION_SUB_CATEGORIES.map((van) => (
               <button
@@ -200,11 +200,11 @@ function HouseMoving() {
         </div>
 
 
-     
+
         {selection.subType && (
           <div className="da-grid">
             {FOURGOUN_CAPACITY[selection.subType]?.map((van_capacity) => (
-              
+
               <button
                 id=""
                 className={
@@ -215,13 +215,13 @@ function HouseMoving() {
                   setSelection({ ...selection, ...selection, capacity: van_capacity.id });
                   console.log(
                     "the type:" +
-                      selection.type +
-                      "\n" +
-                      "the sub type:" +
-                      selection.subType +
-                      "\n" +
-                      "the capacitty:" +
-                      van_capacity.id
+                    selection.type +
+                    "\n" +
+                    "the sub type:" +
+                    selection.subType +
+                    "\n" +
+                    "the capacitty:" +
+                    van_capacity.id
                   );
                 }}
               >

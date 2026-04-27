@@ -1,0 +1,198 @@
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./SendOrder.css";
+
+function SendOrder() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const orderData = location.state?.orderData || {};
+
+  const [quantity, setQuantity] = useState(0);
+  const [contactMethod, setContactMethod] = useState(null);
+  const [cargoDetails, setCargoDetails] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const handleDecrease = () => setQuantity((prev) => Math.max(0, prev - 1));
+  const handleIncrease = () => setQuantity((prev) => prev + 1);
+
+  const handleSendOrder = () => {
+    const finalOrder = {
+      ...orderData,
+      cargoDetails,
+      helpers: quantity,
+      phoneNumber,
+      contactMethod
+    };
+    console.log("Final Order Data:", finalOrder);
+    // Here you would typically send finalOrder to an API
+  };
+
+  return (
+    <main className="send-order-page">
+      <div className="send-order-container">
+        <div className="send-order-top-row">
+          <div className="top-logo-area">
+            <img src="/images/logo.svg" alt="Logo" />
+          </div>
+          <button className="send-order-cancel" type="button" onClick={() => navigate(-1)}>
+            cancel
+          </button>
+        </div>
+
+        <div className="send-order-header-row">
+          <button className="send-order-back" type="button" onClick={() => navigate(-1)}>
+            <img src="/images/ARROW.svg" alt="Back" />
+            <span>New order</span>
+          </button>
+        </div>
+
+        {/* Order Summary from previous step */}
+        {(orderData.pickup || orderData.delivery) && (
+          <div className="order-summary-bar">
+            <div className="order-summary-item">
+              <span className="summary-label">📍 Pickup</span>
+              <span className="summary-value">{orderData.pickup || '—'}</span>
+            </div>
+            <div className="order-summary-item">
+              <span className="summary-label">🏁 Delivery</span>
+              <span className="summary-value">{orderData.delivery || '—'}</span>
+            </div>
+            {orderData.distance && (
+              <div className="order-summary-item">
+                <span className="summary-label">📏 Distance</span>
+                <span className="summary-value">{orderData.distance} km</span>
+              </div>
+            )}
+            <div className="order-summary-item">
+              <span className="summary-label">🗓 Date</span>
+              <span className="summary-value">{orderData.isNow ? 'Now' : orderData.manualDate || '—'}</span>
+            </div>
+            <div className="order-summary-item">
+              <span className="summary-label">🕐 Time</span>
+              <span className="summary-value">{orderData.manualTime || '—'}</span>
+            </div>
+          </div>
+        )}
+
+        <section className="form-panel">
+          <div className="form-section">
+            <div className="section-heading">
+              <div className="section-icon-box">
+                <img src="/images/cubes.svg" alt="Cargo details" />
+              </div>
+              <h2>Cargo details</h2>
+            </div>
+            <textarea
+              className="cargo-textarea"
+              placeholder="Add a description of your cargo details..."
+              value={cargoDetails}
+              onChange={(e) => setCargoDetails(e.target.value)}
+            />
+          </div>
+
+          <div className="form-section">
+            <div className="section-heading">
+              <div className="section-icon-box">
+                <img src="/images/2mans.svg" alt="Loading helpers" />
+              </div>
+              <div>
+                <h2>Loading helpers</h2>
+                <p className="section-subtitle">Do you need Helpers ?</p>
+              </div>
+            </div>
+            <div className="counter-row">
+              <button className="counter-button" type="button" onClick={handleDecrease}>
+                <img src="/images/-.svg" alt="Decrease" />
+              </button>
+              <input
+                className="counter-input"
+                type="text"
+                value={quantity}
+                readOnly
+                aria-label="Number of helpers"
+              />
+              <button className="counter-button" type="button" onClick={handleIncrease}>
+                <img src="/images/+.svg" alt="Increase" />
+              </button>
+            </div>
+          </div>
+
+          <div className="form-section">
+            <hr className="section-divider" />
+            <div className="info-header">
+              <div className="info-icon-box">
+                <img src="/images/contact.svg" alt="Contact" />
+              </div>
+              <h2>Your Informations</h2>
+            </div>
+            <div className="info-subtext">
+              <img src="/images/linephone.svg" alt="" />
+              <p>Enter your phone namber</p>
+            </div>
+
+            <div className="info-row">
+              <div className="phone-input-row">
+                <span className="phone-prefix">+213</span>
+                <input
+                  className="phone-input"
+                  type="tel"
+                  placeholder="X X X X X X X X"
+                  aria-label="Phone number"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+              </div>
+
+              <div className="confirmation-wrapper">
+                <div className="confirmation-label">
+                  <img src="/images/3points.svg" alt="" className="confirmation-label-icon" />
+                  <p>How would you like to receive the confirmation message?</p>
+                </div>
+
+                <div className="confirmation-methods">
+                  <button
+                    type="button"
+                    className={`method-card ${contactMethod === "sms" ? "active" : ""}`}
+                    onClick={() => setContactMethod("sms")}
+                  >
+                    <div className="method-card-top">
+                      <div className="method-icon-box">
+                        <img src="/images/memory_message-text.svg" alt="SMS" />
+                      </div>
+                      <h3>SMS</h3>
+                    </div>
+                    <p>A confirmation SMS will be sent to the provided phone number.</p>
+                  </button>
+
+                  <button
+                    type="button"
+                    className={`method-card ${contactMethod === "whatsapp" ? "active" : ""}`}
+                    onClick={() => setContactMethod("whatsapp")}
+                  >
+                    <div className="method-card-top">
+                      <div className="method-icon-box">
+                        <img src="/images/logos_whatsapp-monochrome-icon.svg" alt="WhatsApp" />
+                      </div>
+                      <h3>WhatsApp</h3>
+                    </div>
+                    <p>A confirmation message will be sent through WhatsApp.</p>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="actions-row">
+              <button className="send-order-button" type="button" onClick={handleSendOrder}>
+                <span>Send Order</span>
+                <img src="/images/send.svg" alt="Send" />
+              </button>
+            </div>
+            <hr className="section-divider" />
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}
+
+export default SendOrder;

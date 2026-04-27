@@ -19,7 +19,7 @@
     align-items: center;
     position: relative;
     padding: 10px 0;
-    
+
 }
 
 .otd-logo {
@@ -46,6 +46,7 @@
 .otd-back-wrapper {
     margin-bottom: 75px;
     margin-left: -150px;
+
 }
 
 .otd-back-btn {
@@ -63,7 +64,8 @@
 }
 
 .otd-back-btn img {
-    width: 24px;
+    width: 48px;
+
 }
 
 

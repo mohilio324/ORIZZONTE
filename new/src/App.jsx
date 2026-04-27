@@ -18,6 +18,7 @@ import Appliances from '../components/appliances.jsx';
 import CarbonChemicals from '../components/carbon-chemicals.jsx';
 import MAP from '../components/MAP.jsx';
 import TIME from '../components/order-time-date.jsx';
+import SendOrder from '../components/SendOrder.jsx';
 import HouseMoving from '../components/housemoving.jsx';
 import HeavyEquipment from '../components/HeavyEquipment.jsx';
 
@@ -105,6 +106,13 @@ function App() {
       <Route path='/time' element={
         <div>
           <TIME />
+          <Footer />
+        </div>
+      } />
+
+      <Route path='/sendorder' element={
+        <div>
+          <SendOrder />
           <Footer />
         </div>
       } />

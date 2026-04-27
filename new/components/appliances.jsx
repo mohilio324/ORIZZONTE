@@ -54,7 +54,7 @@ function Appliances() {
     },
   ];
 
-   const CAMION_SUB_CATEGORIES = [
+  const CAMION_SUB_CATEGORIES = [
     {
       id: "camion-large",
       label: "large",
@@ -73,7 +73,7 @@ function Appliances() {
       label: "commercial",
       img: "/images/HARBINA_GENERAL.svg",
     },
-    
+
   ];
 
   const TRUCK_CAPACITY = {
@@ -104,7 +104,7 @@ function Appliances() {
       </div>
 
       <div className="New-Order-back">
-        <button onClick={() =>Navigate('/NewOrder1')}>
+        <button onClick={() => Navigate('/NewOrder1')}>
           <img src="/images/ARROW.svg" alt="" /> <span>New Order</span>
         </button>
       </div>

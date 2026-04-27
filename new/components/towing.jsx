@@ -15,7 +15,7 @@ function Towing() {
   const TRUCK_TYPES = [
     { id: "porte-chare", label: "porte chare", img: "/images/PORTE_CHARE.svg" },
     { id: "depannage", label: "depannage", img: "/images/DEPANNAGE.svg" },
-   
+
   ];
 
   const PORTE_SUB_CATEGORIES = [
@@ -64,7 +64,7 @@ function Towing() {
       </div>
 
       <div className="New-Order-back">
-        <button onClick={() =>Navigate('/NewOrder1')}>
+        <button onClick={() => Navigate('/NewOrder1')}>
           <img src="/images/ARROW.svg" alt="" /> <span>New Order</span>
         </button>
       </div>

@@ -25,37 +25,37 @@ import "./OrderTimeDate.css";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 let DefaultIcon = L.icon({
-    iconUrl: markerIcon,
-    shadowUrl: markerShadow,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41]
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41]
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371;
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    return (R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(2);
+  const R = 6371;
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  return (R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(2);
 };
 
 function LocationMarker({ position, setPosition, setAddress }) {
-    useMapEvents({
-        click(e) {
-            const { lat, lng } = e.latlng;
-            setPosition({ lat, lng });
-            setAddress(`${lat.toFixed(4)}, ${lng.toFixed(4)}`);
-        },
-    });
-    return position ? <Marker position={position} /> : null;
+  useMapEvents({
+    click(e) {
+      const { lat, lng } = e.latlng;
+      setPosition({ lat, lng });
+      setAddress(`${lat.toFixed(4)}, ${lng.toFixed(4)}`);
+    },
+  });
+  return position ? <Marker position={position} /> : null;
 }
 
 function ChangeView({ center }) {
-    const map = useMap();
-    map.setView(center, 13);
-    return null;
+  const map = useMap();
+  map.setView(center, 13);
+  return null;
 }
 
 function OrderTimeDate() {
@@ -67,7 +67,7 @@ function OrderTimeDate() {
   const [pickupCoords, setPickupCoords] = useState(null);
   const [deliveryCoords, setDeliveryCoords] = useState(null);
   const [distance, setDistance] = useState(null);
-  
+
   const [isNow, setIsNow] = useState(false);
   const [manualDate, setManualDate] = useState("");
   const [h, setH] = useState("19");
@@ -98,6 +98,10 @@ function OrderTimeDate() {
     }
   }, [pickupCoords, deliveryCoords]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleSearch = async () => {
     const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${searchQuery}&countrycodes=dz`);
     const data = await res.json();
@@ -124,6 +128,7 @@ function OrderTimeDate() {
   const handleNext = () => {
     const cap = { pickup, delivery, distance, isNow, manualDate, manualTime: `${h}:${m}` };
     console.log("Registered Order Data (cap):", cap);
+    Navigate('/sendorder');
   };
 
   return (
@@ -156,7 +161,7 @@ function OrderTimeDate() {
               <img src="/images/search.svg" alt="Search" className="otd-search-icon" />
               <input value={pickup} onChange={(e) => setPickup(e.target.value)} placeholder="search for an address" />
             </div>
-            <button className="otd-map-action" onClick={() => {setSelectingType("pickup"); setShowMap(true);}}>
+            <button className="otd-map-action" onClick={() => { setSelectingType("pickup"); setShowMap(true); }}>
               <img src="/images/uiw_map.svg" alt="Map" />
               <span>select on maps</span>
             </button>
@@ -173,7 +178,7 @@ function OrderTimeDate() {
               <img src="/images/search.svg" alt="Search" className="otd-search-icon" />
               <input value={delivery} onChange={(e) => setDelivery(e.target.value)} placeholder="search for an address" />
             </div>
-            <button className="otd-map-action" onClick={() => {setSelectingType("delivery"); setShowMap(true);}}>
+            <button className="otd-map-action" onClick={() => { setSelectingType("delivery"); setShowMap(true); }}>
               <img src="/images/uiw_map.svg" alt="Map" />
               <span>select on maps</span>
             </button>
@@ -214,19 +219,19 @@ function OrderTimeDate() {
               <div className="otd-time-nav">
                 <span className="otd-dismiss" onClick={() => setShowMap(false)}>Cancel</span>
                 <div className="otd-map-search-wrapper">
-                    <input placeholder="Search Algeria..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-                    <button onClick={handleSearch}>Find</button>
+                  <input placeholder="Search Algeria..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                  <button onClick={handleSearch}>Find</button>
                 </div>
               </div>
               <div className="otd-map-wrapper">
                 <MapContainer center={mapCenter} zoom={5} style={{ height: "100%" }}>
-                    <ChangeView center={mapCenter} />
-                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    <LocationMarker 
-                        position={selectingType === "pickup" ? pickupCoords : deliveryCoords} 
-                        setPosition={selectingType === "pickup" ? setPickupCoords : setDeliveryCoords}
-                        setAddress={selectingType === "pickup" ? setPickup : setDelivery}
-                    />
+                  <ChangeView center={mapCenter} />
+                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                  <LocationMarker
+                    position={selectingType === "pickup" ? pickupCoords : deliveryCoords}
+                    setPosition={selectingType === "pickup" ? setPickupCoords : setDeliveryCoords}
+                    setAddress={selectingType === "pickup" ? setPickup : setDelivery}
+                  />
                 </MapContainer>
               </div>
               <button className="otd-map-done-btn" onClick={() => setShowMap(false)}>Confirm Selection</button>
@@ -240,9 +245,9 @@ function OrderTimeDate() {
             <div className="otd-calendar-card">
               <div className="otd-cal-header"><span>&lt;</span> <strong>April 2026</strong> <span>&gt;</span></div>
               <div className="otd-cal-grid">
-                {['Su','Mo','Tu','We','Th','Fr','Sa'].map(d => <div key={d} className="otd-cal-label">{d}</div>)}
+                {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(d => <div key={d} className="otd-cal-label">{d}</div>)}
                 {[...Array(30)].map((_, i) => (
-                  <div key={i} className={i + 1 === 17 ? "otd-day active" : "otd-day"} onClick={() => {setManualDate(`${i + 1} April 2026`); setShowDatePicker(false);}}>{i + 1}</div>
+                  <div key={i} className={i + 1 === 17 ? "otd-day active" : "otd-day"} onClick={() => { setManualDate(`${i + 1} April 2026`); setShowDatePicker(false); }}>{i + 1}</div>
                 ))}
               </div>
             </div>
