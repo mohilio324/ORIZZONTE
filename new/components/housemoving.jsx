@@ -83,10 +83,6 @@ function HouseMoving() {
     "fourgon-medium": [{ id: "1.5t", label: "1.5T" }],
     "fourgon-short": [{ id: "1.2t", label: "1.2T" }],
     "harbina-large": [{ id: "1.5t", label: "1.5T" }],
-<<<<<<< HEAD
-    "harbina-small": [{ id: "1t", label: "1T" },],
-
-=======
     "harbina-small": [{ id: "1t", label: "1T" }],
     "camion-large": [
       { id: "10t", label: "10T" },
@@ -108,7 +104,6 @@ function HouseMoving() {
       { id: "300000l", label: "300000L" },
     ],
     "porte-long": [{ id: "2t", label: "2T" }],
->>>>>>> 1ccb198df88f978bb22e5082dafb3a820b674a87
   };
 
   return (
@@ -229,13 +224,7 @@ function HouseMoving() {
 
         {selection.subType && (
           <div className="da-grid">
-<<<<<<< HEAD
-            {FOURGOUN_CAPACITY[selection.subType]?.map((van_capacity) => (
-
-=======
             {TRUCK_CAPACITY[selection.subType]?.map((van_capacity) => (
-              
->>>>>>> 1ccb198df88f978bb22e5082dafb3a820b674a87
               <button
                 id=""
                 className={

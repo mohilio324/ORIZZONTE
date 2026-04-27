@@ -128,11 +128,6 @@ function OrderTimeDate() {
   };
 
   const handleNext = () => {
-<<<<<<< HEAD
-    const cap = { pickup, delivery, distance, isNow, manualDate, manualTime: `${h}:${m}` };
-    console.log("Registered Order Data (cap):", cap);
-    Navigate('/sendorder');
-=======
     updateOrderData({
       pickup,
       delivery,
@@ -142,8 +137,7 @@ function OrderTimeDate() {
       manualTime: `${h}:${m}`
     });
     console.log("Proceeding to Order Summary");
-    Navigate('/order-summary');
->>>>>>> 1ccb198df88f978bb22e5082dafb3a820b674a87
+    Navigate('/sendorder');
   };
 
   return (
