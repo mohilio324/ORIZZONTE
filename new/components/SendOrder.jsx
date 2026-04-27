@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useOrderContext } from "../src/context/OrderContext.jsx";
 import "./SendOrder.css";
 
 function SendOrder() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const orderData = location.state?.orderData || {};
+  const { orderData, updateOrderData } = useOrderContext();
 
   const [quantity, setQuantity] = useState(0);
   const [contactMethod, setContactMethod] = useState(null);
@@ -16,15 +16,15 @@ function SendOrder() {
   const handleIncrease = () => setQuantity((prev) => prev + 1);
 
   const handleSendOrder = () => {
-    const finalOrder = {
-      ...orderData,
-      cargoDetails,
+    const finalCargo = {
+      commodity: cargoDetails,
       helpers: quantity,
       phoneNumber,
-      contactMethod
+      confirmationMethod: contactMethod
     };
-    console.log("Final Order Data:", finalOrder);
-    // Here you would typically send finalOrder to an API
+    updateOrderData(finalCargo);
+    console.log("Proceeding to Order Confirmation", finalCargo);
+    navigate('/order-confirmation');
   };
 
   return (
