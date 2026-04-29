@@ -1,29 +1,36 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useOrderContext } from "../src/context/OrderContext.jsx";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./SendOrder.css";
 
 function SendOrder() {
   const navigate = useNavigate();
-  const { orderData, updateOrderData } = useOrderContext();
+  const location = useLocation();
+  const orderData = location.state?.orderData || {};
 
   const [quantity, setQuantity] = useState(0);
   const [contactMethod, setContactMethod] = useState(null);
   const [cargoDetails, setCargoDetails] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleDecrease = () => setQuantity((prev) => Math.max(0, prev - 1));
   const handleIncrease = () => setQuantity((prev) => prev + 1);
 
   const handleSendOrder = () => {
-    const finalCargo = {
-      commodity: cargoDetails,
+    if (!phoneNumber || !contactMethod) {
+      setErrorMsg("Please provide your phone number and select a confirmation method.");
+      return;
+    }
+
+    const finalOrder = {
+      ...orderData,
+      cargoDetails,
       helpers: quantity,
       phoneNumber,
-      confirmationMethod: contactMethod
+      contactMethod
     };
-    updateOrderData(finalCargo);
-    console.log("Proceeding to Order Confirmation", finalCargo);
+    console.log("Final Order Data:", finalOrder);
+    // Here you would typically send finalOrder to an API
     navigate('/order-confirmation');
   };
 
@@ -40,7 +47,7 @@ function SendOrder() {
         </div>
 
         <div className="send-order-header-row">
-          <button className="send-order-back" type="button" onClick={() => navigate(-1)}>
+          <button className="send-order-back" type="button" onClick={() => navigate('/time')}>
             <img src="/images/ARROW.svg" alt="Back" />
             <span>New order</span>
           </button>
@@ -190,6 +197,24 @@ function SendOrder() {
             <hr className="section-divider" />
           </div>
         </section>
+
+        {/* ERROR MODAL */}
+        {errorMsg && (
+          <div style={{position: "fixed", top: 0, left: 0, width: "100%", height: "100%", background: "rgba(0,0,0,0.45)", zIndex: 9999, display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <div style={{backgroundColor: "white", borderRadius: "25px", padding: "30px", width: "90%", maxWidth: "400px", boxShadow: "0 15px 35px rgba(0, 0, 0, 0.2)", textAlign: "center"}}>
+              <div style={{fontSize: "40px", marginBottom: "10px"}}>⚠️</div>
+              <h3 style={{color: "#FF5E5E", marginBottom: "15px", fontSize: "24px", fontWeight: "800", fontFamily: "'Inter', sans-serif"}}>Missing Information</h3>
+              <p style={{marginBottom: "25px", fontWeight: "600", fontSize: "16px", color: "#333", fontFamily: "'Inter', sans-serif"}}>{errorMsg}</p>
+              <button 
+                onClick={() => setErrorMsg("")}
+                style={{backgroundColor: "#F39C12", fontSize: "18px", width: "100%", padding: "15px", border: "none", borderRadius: "15px", color: "white", fontWeight: "700", cursor: "pointer"}}
+              >
+                Got it
+              </button>
+            </div>
+          </div>
+        )}
+
       </div>
     </main>
   );
