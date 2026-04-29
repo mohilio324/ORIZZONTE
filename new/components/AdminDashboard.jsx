@@ -1,5 +1,7 @@
 const logo = '/images/logo.svg'; 
 import { useState, useEffect, useRef } from "react";
+import api from '../src/api.js';
+import { useAuth } from '../src/context/AuthContext.jsx';
 
 // ── LOGO SVG (your uploaded cargo-truck_6.svg embedded) ──────────
 const LOGO_SVG = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmcAAAGWCAYAAAA9lCQwAAAQAElEQVR4AexdB4AURdp9Vd09MxsIElVQOcWEWc6AeorhVDzjKZ45ncIZMJ2C4VfGcAomFEzgGc5wKHuenjmLOSJGTJhRJIdNM9PdVf/7emaWBTEhKLtbTb+uHL7XNV1vv55dNNzhGHAMOAYcA44Bx4BjwDGw3DDgxNlycyvcRBwDjgHHQEtjwNnjGHAMLAkDTpwtCWuujWPAMeAYcAw4BhwDjoFlxIATZ8uIWNdty2LAWeMYcAw4BhwDjoFfiwEnzn4tpt04jgHHgGPAMeAYcAw4Br7LwHdynDj7DiUuwzHgGHAMOAYcA44Bx8Bvx4ATZ78d925kx4BjwDHQshhw1jgGHANLhQEnzpYKja4Tx4BjwDHgGHAMOAYcA0uHASfOlg6PrpeWxYCzxjHgGHAMOAYcA4IBJQFqUkdE4AAAAASUVORK5CYII=`;
@@ -307,7 +309,7 @@ const AssignModal = ({ request, employees, onClose, onConfirm }) => {
       <div className="field"><label>Select Employee</label>
         <select value={emp} onChange={e => setEmp(e.target.value)}>
           <option value="">— Choose available employee —</option>
-          {employees.map(e => <option key={e.id} value={e.name}>{e.name} ({e.role.replace(/[🚛📦🔧📋]/g, "").trim()})</option>)}
+          {employees.map(e => <option key={e.id} value={e.id}>{e.name} ({e.role.replace(/[🚛📦🔧📋]/g, "").trim()})</option>)}
         </select>
       </div>
       <div className="field"><label>Vehicle Type</label>
@@ -394,17 +396,49 @@ const DetailsModal = ({ req, onClose }) => (
   </Modal>
 );
 
+// ── EMPLOYEE HISTORY MODAL ──────────────────────────────────────
+const EmployeeHistoryModal = ({ emp, missions, onClose }) => (
+  <Modal title={`📂 Mission History — ${emp.name}`} onClose={onClose}
+    footer={<button className="btn btn-outline" onClick={onClose}>Close</button>}>
+    {missions.length === 0 ? (
+      <p style={{ textAlign: 'center', padding: '20px', color: 'var(--grey-light)' }}>No missions found for this employee.</p>
+    ) : (
+      <div className="table-wrap" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Service</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {missions.map(m => (
+              <tr key={m.id}>
+                <td><strong>#{m.id}</strong></td>
+                <td>{m.shipment_type.replace(/_/g, ' ')}</td>
+                <td>{m.date}</td>
+                <td><Badge status={m.display_status || m.status} /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </Modal>
+);
+
 // ══════════════════════════════════════════════════════════════════
 //  MAIN APP
 // ══════════════════════════════════════════════════════════════════
 export default function AdminDashboard() {
-  const [authed, setAuthed] = useState(false);
-  const [email, setEmail] = useState("admin@orizzonte.dz");
-  const [pass, setPass] = useState("admin123");
-  const [loginErr, setLoginErr] = useState(false);
+  const { user, logout: authLogout } = useAuth();
   const [page, setPage] = useState("dashboard");
-  const [employees, setEmployees] = useState(INITIAL_EMPLOYEES);
-  const [requests, setRequests] = useState(REQUESTS);
+  const [employees, setEmployees] = useState([]);
+  const [requests, setRequests] = useState([]);
+  const [stats, setStats] = useState({ total: 0, completed: 0, active: 0, revenue: "0" });
+  const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState({ msg: "", show: false });
   const [modal, setModal] = useState(null); // null | {type, data}
   const [confirm, setConfirm] = useState(null); // null | {id, name}
@@ -416,8 +450,51 @@ export default function AdminDashboard() {
     const tag = document.createElement("style");
     tag.textContent = STYLES;
     document.head.appendChild(tag);
-    return () => document.head.removeChild(tag);
+    
+    fetchDashboardData();
+
+    return () => {
+      if (document.head.contains(tag)) document.head.removeChild(tag);
+    };
   }, []);
+
+  const fetchDashboardData = async () => {
+    setLoading(true);
+    try {
+      const [missionsRes, empsRes, statsRes] = await Promise.all([
+        api.get('/missions/all/'),
+        api.get('/users/employees/'),
+        api.get('/missions/dashboard/')
+      ]);
+      
+      const missions = missionsRes.data;
+      setRequests(missions);
+      setEmployees(empsRes.data.map(e => ({
+        id: e.id,
+        name: e.username,
+        role: `🚛 ${e.role || 'Employee'}`,
+        initials: (e.username[0] || 'U').toUpperCase(),
+        missions: 0 
+      })));
+
+      // Real stats from backend
+      const s = statsRes.data;
+      setStats({
+        total: s.total_missions_month,
+        completed: s.completed_missions,
+        active: missions.filter(m => m.status === 'in_progress' || m.status === 'accepted').length,
+        revenue: parseFloat(s.monthly_revenue).toLocaleString(),
+        percentage: s.completion_percentage,
+        overview: s.monthly_overview
+      });
+
+    } catch (err) {
+      console.error("Failed to fetch dashboard data:", err);
+      showToast("❌ Failed to load live data");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const showToast = (msg) => {
     if (toastTimer.current) clearTimeout(toastTimer.current);
@@ -426,29 +503,70 @@ export default function AdminDashboard() {
   };
 
   // ── AUTH ──────────────────────────────────────────────────────
-  const doLogin = () => {
-    if (email === "admin@orizzonte.dz" && pass === "admin123") { setAuthed(true); setLoginErr(false); }
-    else setLoginErr(true);
+  // (Auth is now handled by ProtectedRoute in App.jsx, but we keep logout)
+  const doLogout = () => {
+    authLogout();
   };
 
   // ── EMPLOYEE ACTIONS ──────────────────────────────────────────
-  const deleteEmployee = (id) => {
-    setEmployees(e => e.filter(x => x.id !== id));
-    setConfirm(null);
-    showToast("🗑️ Employee removed successfully");
+  const deleteEmployee = async (id) => {
+    try {
+      await api.delete(`/users/employees/${id}/`);
+      setEmployees(e => e.filter(x => x.id !== id));
+      setConfirm(null);
+      showToast("🗑️ Employee removed successfully");
+    } catch (err) {
+      showToast("❌ Failed to delete employee");
+    }
   };
-  const addEmployee = (form) => {
-    const name = `${form.firstName} ${form.lastName}`.trim() || "New Employee";
-    const initials = (form.firstName[0] || "N") + (form.lastName[0] || "E");
-    const roleIcons = { "Driver — Senior": "🚛", "Driver — Junior": "🚛", "Packing Specialist": "📦", "Logistics Manager": "🔧", "Operations": "📋" };
-    setEmployees(e => [...e, { id: Date.now(), name, role: `${roleIcons[form.role] || "👤"} ${form.role}`, initials: initials.toUpperCase(), missions: 0 }]);
-    setModal(null);
-    showToast("👤 New employee registered!");
+
+  const addEmployee = async (form) => {
+    try {
+      const payload = {
+        username: `${form.firstName.toLowerCase()}${form.lastName.toLowerCase()}`,
+        email: form.email,
+        password: "Orizzonte2026!", // Stronger default password to pass validation
+        role: "employee",
+        first_name: form.firstName,
+        last_name: form.lastName
+      };
+      const res = await api.post('/users/employees/create/', payload);
+      const newEmp = res.data.employee; // Updated to match backend response structure
+      
+      setEmployees(e => [...e, { 
+        id: newEmp.id, 
+        name: newEmp.username, 
+        role: `🚛 Employee`, 
+        initials: (newEmp.username[0] || 'U').toUpperCase(), 
+        missions: 0 
+      }]);
+      setModal(null);
+      showToast("👤 New employee registered!");
+    } catch (err) {
+      console.error("Employee creation error:", err.response?.data);
+      let msg = "Failed to register employee";
+      if (err.response?.data?.errors) {
+        const errors = err.response.data.errors;
+        msg = Object.values(errors).flat().join(", ");
+      }
+      showToast(`❌ ${msg}`);
+    }
   };
+
   const editEmployee = (updated) => {
+    // Placeholder for now as backend edit endpoint might differ
     setEmployees(e => e.map(x => x.id === updated.id ? { ...x, name: updated.name, role: updated.role } : x));
     setModal(null);
-    showToast("✅ Employee updated");
+    showToast("✅ Employee updated (local only)");
+  };
+
+  const viewEmployeeHistory = async (emp) => {
+    try {
+      const res = await api.get(`/missions/employee/${emp.id}/`);
+      setModal({ type: "empHistory", data: { emp, missions: res.data } });
+    } catch (err) {
+      showToast("❌ Failed to load employee history");
+    }
   };
 
   // ── CSV EXPORT ─────────────────────────────────────────────────
@@ -465,11 +583,43 @@ export default function AdminDashboard() {
   };
 
   // ── ASSIGN ────────────────────────────────────────────────────
-  const doAssign = (reqId, emp) => {
-    if (!emp) { showToast("⚠️ Please select an employee"); return; }
-    setRequests(r => r.map(x => x.id === reqId ? { ...x, assigned: emp, status: "confirmed" } : x));
-    setModal(null);
-    showToast(`✅ Mission ${reqId} assigned to ${emp}`);
+  const doAssign = async (reqId, empId) => {
+    if (!empId) { showToast("⚠️ Please select an employee"); return; }
+    try {
+      await api.post(`/missions/${reqId}/assign/`, { employee_id: empId });
+      
+      const emp = employees.find(e => e.id == empId);
+      const empName = emp ? emp.name : "Assigned";
+
+      setRequests(r => r.map(x => x.id === reqId ? { ...x, taken_by: empName, status: "confirmed", display_status: "taken" } : x));
+      setModal(null);
+      showToast(`✅ Mission ${reqId} assigned to ${empName}`);
+      fetchDashboardData();
+    } catch (err) {
+      showToast("❌ Failed to assign mission");
+    }
+  };
+
+  const doCancel = async (id) => {
+    if (!window.confirm("Are you sure you want to CANCEL this mission?")) return;
+    try {
+      await api.post(`/missions/${id}/cancel/`);
+      showToast(`🚫 Mission #${id} cancelled`);
+      fetchDashboardData();
+    } catch (err) {
+      showToast("❌ Failed to cancel mission");
+    }
+  };
+
+  const doDeleteMission = async (id) => {
+    if (!window.confirm("Permanently DELETE this mission? This cannot be undone.")) return;
+    try {
+      await api.delete(`/missions/${id}/delete/`);
+      showToast(`🗑️ Mission #${id} deleted`);
+      fetchDashboardData();
+    } catch (err) {
+      showToast("❌ Failed to delete mission");
+    }
   };
 
   // ── FILTERED REQUESTS ─────────────────────────────────────────
@@ -488,32 +638,9 @@ export default function AdminDashboard() {
   const { title, sub } = pageTitles[page] || { title: page, sub: "" };
 
   // ══════════════════════════════════════════════════════════════
-  //  LOGIN SCREEN
+  //  LOGIN SCREEN (Redirected if not authed)
   // ══════════════════════════════════════════════════════════════
-  if (!authed) return (
-    <div className="login-wrap">
-      <div className="login-card">
-        <div className="login-top">
-          <div className="login-logo-row">
-            <img src={`data:image/svg+xml;utf8,${encodeURIComponent(`<svg width="170" height="110" viewBox="0 0 170 110" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect x="-58" width="228" height="110" fill="url(#p)"/><defs><pattern id="p" patternContentUnits="objectBoundingBox" width="1" height="1"><use xlink:href="#i" transform="matrix(0.00162602 0 0 0.00337029 0 -0.184169)"/></pattern><image id="i" width="615" height="406" preserveAspectRatio="none" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmcAAAGWCAYAAAA9lCQwAAAQAElEQVR4AexdB4AURdp9Vd09MxsIElVQOcWEWc6AeorhVDzjKZ45ncIZMJ2C4VfGcAomFEzgGc5wKHuenjmLOSJGTJhRJIdNM9PdVf/7emaWBTEhKLtbTb+uHL7XNV1vv55dNNzhGHAMOAYcA44Bx4BjwDGw3DDgxNlycyvcRBwDjgHHQEtjwNnjGHAMLAkDTpwtCWuujWPAMeAYcAw4BhwDjoFlxIATZ8uIWNdty2LAWeMYcAw4BhwDjoFfiwEnzn4tpt04jgHHgGPAMeAYcAw4Br7LwHdynDj7DiUuwzHgGHAMOAYcA44Bx8Bvx4ATZ78d925kx4BjwDHQshhw1jgGHANLhQEnzpYKja4Tx4BjwDHgGHAMOAYcA0uHASfOlg6PrpeWxYCzxjHgGHAMOAYcA44BB4D2AAABAA=="/></defs></svg>`)}`} alt="ORIZZONTE" style={{ height: 52, objectFit: "contain" }} />
-          </div>
-          <h1>ORIZZONTE</h1>
-          <p>Modern Logistics Platform · Algeria</p>
-          <div className="login-badge">🔐 Admin Portal</div>
-        </div>
-        <div className="login-body">
-          {loginErr && <div className="login-error">⚠️ Invalid credentials. Please try again.</div>}
-          <div className="form-group"><label>Admin Email</label>
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === "Enter" && doLogin()} />
-          </div>
-          <div className="form-group"><label>Password</label>
-            <input type="password" value={pass} onChange={e => setPass(e.target.value)} onKeyDown={e => e.key === "Enter" && doLogin()} />
-          </div>
-          <button className="login-btn" onClick={doLogin}>Sign In as Administrator</button>
-        </div>
-      </div>
-    </div>
-  );
+  if (!user && loading) return <div style={{padding:40}}>Loading Admin...</div>;
 
   // ══════════════════════════════════════════════════════════════
   //  MAIN APP
@@ -557,12 +684,12 @@ export default function AdminDashboard() {
         </nav>
 
         <div className="sidebar-user">
-          <div className="user-avatar">A</div>
+          <div className="user-avatar">{user?.username?.[0]?.toUpperCase() || 'A'}</div>
           <div className="user-info">
-            <strong>Admin ORIZZONTE</strong>
-            <span>SUPER ADMINISTRATEUR</span>
+            <strong>{user?.username || 'Admin'}</strong>
+            <span>{user?.role?.toUpperCase() || 'SUPER ADMINISTRATEUR'}</span>
           </div>
-          <button className="logout-btn" onClick={() => setAuthed(false)} title="Logout">
+          <button className="logout-btn" onClick={doLogout} title="Logout">
             <Icon d={icons.logout} size={16} />
           </button>
         </div>
@@ -587,10 +714,10 @@ export default function AdminDashboard() {
           <div className="page">
             <div className="stats-grid">
               {[
-                { color: "yellow", icon: "📦", val: requests.length + 120, label: "Total Missions", trend: "↑ +12 this month" },
-                { color: "green", icon: "✅", val: countByStatus("done") + 95, label: "Completed", trend: "↑ 66.7% rate" },
-                { color: "blue", icon: "🚛", val: countByStatus("progress") + 31, label: "Active Missions", trend: "↑ 8 confirmed today" },
-                { color: "red", icon: "💰", val: "2.4M", label: "Revenue (DZD)", trend: "↑ +18% vs last month" },
+                { color: "yellow", icon: "📦", val: stats.total, label: "Total Missions", trend: "Live Data" },
+                { color: "green", icon: "✅", val: stats.completed, label: "Completed", trend: "Live Data" },
+                { color: "blue", icon: "🚛", val: stats.active, label: "Active Missions", trend: "Live Data" },
+                { color: "red", icon: "💰", val: stats.revenue, label: "Revenue (DZD)", trend: "Live Data" },
               ].map((s, i) => (
                 <div key={i} className={`stat-card ${s.color}`}>
                   <div className={`stat-icon ${s.color}`}>{s.icon}</div>
@@ -604,8 +731,8 @@ export default function AdminDashboard() {
             <div className="charts-grid">
               <div className="chart-card">
                 <h4>Monthly Missions</h4>
-                <p>Completed vs Pending — 2026</p>
-                <BarChart data={[{ l: "Jan", v: 18 }, { l: "Feb", v: 24 }, { l: "Mar", v: 31 }, { l: "Apr", v: 47 }]} />
+                <p>Completed Missions — Last 6 Months</p>
+                <BarChart data={stats.overview ? stats.overview.map(m => ({ l: m.month.substring(0,3), v: m.completed })) : []} />
               </div>
               <div className="chart-card">
                 <h4>Service Distribution</h4>
@@ -636,9 +763,9 @@ export default function AdminDashboard() {
                     <tbody>
                       {requests.slice(0, 5).map(r => (
                         <tr key={r.id}>
-                          <td><strong>{r.client}</strong><br /><span style={{ fontSize: 11, color: "var(--grey-light)" }}>{r.route}</span></td>
-                          <td>{r.service}</td>
-                          <td><Badge status={r.status} /></td>
+                          <td><strong>#{r.id}</strong><br /><span style={{ fontSize: 11, color: "var(--grey-light)" }}>{r.shipment_type}</span></td>
+                          <td>{r.category}</td>
+                          <td><Badge status={r.display_status} /></td>
                         </tr>
                       ))}
                     </tbody>
@@ -683,16 +810,18 @@ export default function AdminDashboard() {
                 <tbody>
                   {filteredReqs.map(r => (
                     <tr key={r.id}>
-                      <td><strong>{r.id}</strong></td>
-                      <td><strong>{r.client}</strong><br /><span style={{ fontSize: 11, color: "var(--grey-light)" }}>{r.email}</span></td>
-                      <td>{r.service}</td>
-                      <td>{r.route}</td>
+                      <td><strong>#{r.id}</strong></td>
+                      <td><strong>{r.phone_number}</strong><br /><span style={{ fontSize: 11, color: "var(--grey-light)" }}>Client</span></td>
+                      <td>{r.shipment_type}</td>
+                      <td>{r.category}</td>
                       <td>{r.date}</td>
-                      <td>{r.assigned || <span style={{ color: "var(--grey-light)", fontSize: 12 }}>— Unassigned —</span>}</td>
-                      <td><Badge status={r.status} /></td>
+                      <td>{r.taken_by || <span style={{ color: "var(--grey-light)", fontSize: 12 }}>— Unassigned —</span>}</td>
+                      <td><Badge status={r.display_status} /></td>
                       <td style={{ display: "flex", gap: 6 }}>
-                        {r.status === "pending" && <button className="btn btn-primary btn-sm" onClick={() => setModal({ type: "assign", data: r })}>Assign</button>}
+                        {r.display_status === "available" && <button className="btn btn-primary btn-sm" onClick={() => setModal({ type: "assign", data: r })}>Assign</button>}
                         <button className="btn btn-outline btn-sm" onClick={() => setModal({ type: "details", data: r })}>Details</button>
+                        {r.status !== 'cancelled' && r.status !== 'completed' && <button className="btn btn-outline btn-sm" style={{ color: '#e74c3c' }} onClick={() => doCancel(r.id)}>Cancel</button>}
+                        <button className="btn btn-danger btn-sm" onClick={() => doDeleteMission(r.id)}>Delete</button>
                       </td>
                     </tr>
                   ))}
@@ -723,7 +852,8 @@ export default function AdminDashboard() {
                     <div className="emp-stat"><strong>—</strong><span>Assigned</span></div>
                   </div>
                   <div className="emp-actions">
-                    <button className="btn btn-outline btn-sm" style={{ flex: 1 }} onClick={() => setModal({ type: "editEmp", data: e })}>Edit</button>
+                    <button className="btn btn-outline btn-sm" style={{ flex: 1 }} onClick={() => viewEmployeeHistory(e)}>History</button>
+                    <button className="btn btn-outline btn-sm" onClick={() => setModal({ type: "editEmp", data: e })}>Edit</button>
                     <button className="btn btn-danger btn-sm" onClick={() => setConfirm({ id: e.id, name: e.name })}>Delete</button>
                   </div>
                 </div>
@@ -839,6 +969,9 @@ export default function AdminDashboard() {
       )}
       {modal?.type === "editEmp" && (
         <EditEmployeeModal emp={modal.data} onClose={() => setModal(null)} onSave={editEmployee} />
+      )}
+      {modal?.type === "empHistory" && (
+        <EmployeeHistoryModal emp={modal.data.emp} missions={modal.data.missions} onClose={() => setModal(null)} />
       )}
 
       {/* ── CONFIRM DELETE ── */}

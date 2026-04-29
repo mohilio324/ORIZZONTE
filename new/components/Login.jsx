@@ -1,11 +1,12 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useAuth } from "../src/context/AuthContext.jsx";
 import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   // 1. Unified state: ensure keys match what you use in handleLogin
   const [credentials, setCredentials] = useState({
@@ -13,6 +14,7 @@ function Login() {
     password: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setCredentials({
@@ -24,26 +26,29 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
-      // 2. The keys here (username, password) are what Django SimpleJWT expects
-      const response = await axios.post("http://127.0.0.1:8000/api/token/", {
-        username: credentials.username,
-        password: credentials.password,
-      });
-      localStorage.setItem("userName", credentials.username); // this will be used in hero.jsx to print the user's name
-      localStorage.setItem("access_token", response.data.access);
-      localStorage.setItem("refresh_token", response.data.refresh);
-      localStorage.setItem("isLoggedin", "true");
+      // 2. Use AuthContext login which handles token + role storage
+      const data = await login(credentials.username, credentials.password);
 
+      console.log("Login successful! Role:", data.role);
 
-      console.log("Login successful!");
-      navigate("/");
+      // 3. Route based on role
+      if (data.role === "boss") {
+        navigate("/admin");
+      } else if (data.role === "employee") {
+        navigate("/employee-dashboard");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       console.error(err.response?.data);
       // DRF usually returns detail for auth errors
       const msg = err.response?.data?.detail || "Invalid username or password.";
       setError(msg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,7 +101,9 @@ function Login() {
           <div className="form-grou">
             <div className="ROW">
               <a href="#forgot">forgot password?</a>
-              <button type="submit">LOGIN</button>
+              <button type="submit" disabled={loading}>
+                {loading ? "Logging in..." : "LOGIN"}
+              </button>
             </div>
           </div>
         </form>

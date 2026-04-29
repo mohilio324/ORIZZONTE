@@ -1,9 +1,10 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
-
+import { useOrderContext } from "../src/context/OrderContext.jsx";
 import "./NewOrder1.css";
 
 function NewOrder1() {
   const Navigate = useNavigate();
+  const { updateOrderData } = useOrderContext();
 
   const handleNewOrder1 = (e) => {
     e.preventDefault();
@@ -23,32 +24,28 @@ function NewOrder1() {
       </div>
 
       <div className="da-grid">
-        <button id="" className="" onClick={() => Navigate('/housemoving')}>
-          <img src="/images/SOFA.svg" alt="" /> <span>House moving &
-            personal effects</span>
+        <button className="" onClick={() => { updateOrderData({ category: 'house_moving', shipmentType: 'house_moving' }); Navigate('/housemoving'); }}>
+          <img src="/images/SOFA.svg" alt="" /> <span>House moving & personal effects</span>
         </button>
-        <button onClick={() => Navigate('/commercial_merchandise')} id="" className="" >
-          <img src="/images/MARKET.svg" alt="" /> <span>Commercial
-            marchandise</span>
+        <button onClick={() => { updateOrderData({ category: 'commercial', shipmentType: 'commercial_merchandise' }); Navigate('/commercial_merchandise'); }}>
+          <img src="/images/MARKET.svg" alt="" /> <span>Commercial marchandise</span>
         </button>
-        <button onClick={() => Navigate('/heavy-equipment')}>
+        <button onClick={() => { updateOrderData({ category: 'heavy_equipment', shipmentType: 'heavy_equipment' }); Navigate('/heavy-equipment'); }}>
           <img src="/images/CONE.svg" alt="" /> <span>Heavy equipment</span>
         </button>
-        <button id="" className="" onClick={() => Navigate('/carbon-chemicals')}>
-          <img src="/images/GAS.svg" alt="" /> <span>Carbon &
-            chemicals</span>
+        <button className="" onClick={() => { updateOrderData({ category: 'chemicals', shipmentType: 'carbon_chemicals' }); Navigate('/carbon-chemicals'); }}>
+          <img src="/images/GAS.svg" alt="" /> <span>Carbon & chemicals</span>
         </button>
-        <button id="" className="" onClick={() => Navigate('/towing')}>
+        <button className="" onClick={() => { updateOrderData({ category: 'towing', shipmentType: 'towing' }); Navigate('/towing'); }}>
           <img src="/images/TOW-TRUCK.svg" alt="" /> <span>Towing</span>
         </button>
-        <button id="" className="" onClick={() => Navigate('/construction-materials')}>
-          <img src="/images/CRANE.svg" alt="" /> <span>Construction
-            materials </span>
+        <button className="" onClick={() => { updateOrderData({ category: 'construction', shipmentType: 'construction_materials' }); Navigate('/construction-materials'); }}>
+          <img src="/images/CRANE.svg" alt="" /> <span>Construction materials </span>
         </button>
-        <button id="" className="" onClick={() => Navigate('/water')}>
+        <button className="" onClick={() => { updateOrderData({ category: 'water', shipmentType: 'water' }); Navigate('/water'); }}>
           <img src="/images/WATER.svg" alt="" /> <span>Water</span>
         </button>
-        <button id="" className="" onClick={() => Navigate('/appliances')}>
+        <button className="" onClick={() => { updateOrderData({ category: 'appliances', shipmentType: 'appliances' }); Navigate('/appliances'); }}>
           <img src="/images/CHARGER.svg" alt="" /> <span>Appliances</span>
         </button>
       </div>

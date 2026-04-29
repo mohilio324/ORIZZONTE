@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 
-
 import Header from '../components/Header.jsx';
 import Hero from '../components/Hero.jsx';
 import Services from '../components/Services.jsx';
@@ -24,15 +23,18 @@ import HeavyEquipment from '../components/HeavyEquipment.jsx';
 import OrderSummary from '../components/OrderSummary.jsx';
 import OrderConfirmation from '../components/OrderConfirmation.jsx';
 import AdminDashboard from '../components/AdminDashboard.jsx';
+import EmployeeDashboard from './orizzonte-employee-dashboard.jsx';
 import { OrderProvider } from './context/OrderContext.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
+import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import ScrollToTop from '../components/ScrollToTop.jsx';
-
 
 import './App.css';
 
 
 function App() {
   return (
+    <AuthProvider>
     <OrderProvider>
       <ScrollToTop />
       <Routes>
@@ -54,106 +56,143 @@ function App() {
       <Route path="/login" element={<Login />} />
 
       <Route path='/NewOrder1' element={
+        <ProtectedRoute>
         <div>
           <NewOrder1 />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
       <Route path='/commercial_merchandise' element={
+        <ProtectedRoute>
         <div>
           <CommercialMerchandise />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
 
       <Route path='/towing' element={
+        <ProtectedRoute>
         <div>
           <Towing />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
 
       <Route path='/water' element={
+        <ProtectedRoute>
         <div>
           <Water />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
 
       <Route path='/construction-materials' element={
+        <ProtectedRoute>
         <div>
           <ConstructionMaterials />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
 
       <Route path='/carbon-chemicals' element={
+        <ProtectedRoute>
         <div>
           <CarbonChemicals />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
 
       <Route path='/appliances' element={
+        <ProtectedRoute>
         <div>
           <Appliances />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
 
       <Route path='/map' element={
+        <ProtectedRoute>
         <div>
           <MAP />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
 
       <Route path='/time' element={
+        <ProtectedRoute>
         <div>
           <TIME />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
 
       <Route path='/sendorder' element={
+        <ProtectedRoute>
         <div>
           <SendOrder />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
 
       <Route path='/housemoving' element={
+        <ProtectedRoute>
         <div>
           <HouseMoving />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
       <Route path='/heavy-equipment' element={
+        <ProtectedRoute>
         <div>
           <HeavyEquipment />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
       <Route path='/order-summary' element={
+        <ProtectedRoute>
         <div>
           <OrderSummary />
           <Footer />
         </div>
+        </ProtectedRoute>
       } />
       <Route path='/order-confirmation' element={
+        <ProtectedRoute>
         <div>
           <OrderConfirmation />
         </div>
+        </ProtectedRoute>
       } />
 
         <Route path='/admin' element={
+        <ProtectedRoute requiredRole="boss">
         <div>
           <AdminDashboard />
           <Footer />
         </div>
+        </ProtectedRoute>
+      } />
+
+      <Route path='/employee-dashboard' element={
+        <ProtectedRoute requiredRole="employee">
+          <EmployeeDashboard />
+        </ProtectedRoute>
       } />
     </Routes>
     </OrderProvider>
+    </AuthProvider>
   );
 }
 

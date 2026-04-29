@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import api from "./api.js";
+import { useAuth } from "./context/AuthContext.jsx";
 
 // ── Brand tokens ─────────────────────────────────────────────────────────────
 const C = {
@@ -10,17 +12,6 @@ const C = {
   white:    "#FFFFFF",
   bg:       "#F5F4F2",
 };
-
-// ── Mock data ─────────────────────────────────────────────────────────────────
-const MOCK_EMPLOYEES = ["Ahmed Cherbi", "Mehdi Lariane", "Lyamine Zerrouki", "El Amine Chekirou"];
-
-const INITIAL_MISSIONS = [
-  { id: 1, title: "Residential Move – Hydra", client: "Karim B.", from: "Hydra, Algiers", to: "Bab Ezzouar", date: "2026-05-03", time: "09:00", type: "Résidentiel", truck: "Fourgon", status: "available", assignedTo: null, urgent: true  },
-  { id: 2, title: "Corporate Relocation – Kouba", client: "SARL TechNova", from: "Kouba, Algiers", to: "Cheraga Business Park", date: "2026-05-03", time: "11:00", type: "Commercial", truck: "Camion", status: "available", assignedTo: null, urgent: false },
-  { id: 3, title: "Freight Shipping – Port Area", client: "Express Cargo DZ", from: "Algiers Port", to: "Blida Zone Industrielle", date: "2026-05-04", time: "07:30", type: "Marchandises", truck: "Harbina", status: "available", assignedTo: null, urgent: true  },
-  { id: 4, title: "Student Apartment – Ben Aknoun", client: "Rania M.", from: "Ben Aknoun", to: "Cité Universitaire Bab Ezzouar", date: "2026-05-04", time: "14:00", type: "Résidentiel", truck: "Commercial", status: "available", assignedTo: null, urgent: false },
-  { id: 5, title: "Vehicle Transport – Oran", client: "DriveTrack SPA", from: "Algiers Ouest", to: "Oran Port", date: "2026-05-05", time: "06:00", type: "Transport", truck: "Camion", status: "available", assignedTo: null, urgent: false },
-];
 
 // ── Truck icon map ────────────────────────────────────────────────────────────
 const TruckIcon = ({ type }) => {
@@ -52,6 +43,7 @@ const StatusBadge = ({ status }) => {
     available:   { label:"DISPONIBLE",  bg: C.yellow,    color: C.black },
     inprogress:  { label:"EN COURS",    bg: "#1A56E8",   color: C.white },
     completed:   { label:"TERMINÉE",    bg: "#188A18",   color: C.white },
+    taken:       { label:"OCCUPÉE",    bg: C.darkGrey,  color: C.white },
     accepted:    { label:"ACCEPTÉE",    bg: C.darkGrey,  color: C.white },
   };
   const s = map[status] || map.available;
@@ -86,10 +78,10 @@ const StatCard = ({ label, value, icon, accent }) => (
 
 // ── Mission Card ──────────────────────────────────────────────────────────────
 const MissionCard = ({ mission, currentUser, onAccept, onStart, onComplete }) => {
-  const isAvailable  = mission.status === "available";
-  const isAccepted   = mission.status === "accepted"   && mission.assignedTo === currentUser;
-  const isInProgress = mission.status === "inprogress" && mission.assignedTo === currentUser;
-  const isMine       = mission.assignedTo === currentUser;
+  const isAvailable  = mission.display_status === "available";
+  const isTaken      = mission.display_status === "taken";
+  const isInProgress = mission.display_status === "in_progress";
+  const isMine       = mission.taken_by === currentUser;
 
   const cardBg =
     isAvailable   ? "#FFFBF0" :
@@ -116,44 +108,39 @@ const MissionCard = ({ mission, currentUser, onAccept, onStart, onComplete }) =>
     onMouseEnter={e=>e.currentTarget.style.transform="translateY(-3px)"}
     onMouseLeave={e=>e.currentTarget.style.transform="translateY(0)"}
     >
-      {/* Urgent ribbon */}
-      {mission.urgent && isAvailable && (
-        <div style={{
-          position:"absolute", top:0, right:0,
-          background: C.yellow, color: C.black,
-          fontSize:10, fontWeight:800, padding:"4px 14px",
-          borderBottomLeftRadius:12, fontFamily:"Poppins,sans-serif", letterSpacing:1,
-        }}>⚡ URGENT</div>
-      )}
-
       {/* Header */}
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:12 }}>
         <div>
-          <div style={{ fontSize:15, fontWeight:800, color:C.black, fontFamily:"Poppins,sans-serif", marginBottom:4 }}>
-            {mission.title}
+          <div style={{ fontSize:15, fontWeight:800, color:C.black, fontFamily:"Poppins,sans-serif", marginBottom:4, textTransform: "uppercase" }}>
+            {mission.shipment_type.replace(/_/g, ' ')}
           </div>
           <div style={{ display:"flex", gap:8, alignItems:"center", flexWrap:"wrap" }}>
-            <TypeBadge type={mission.type} />
-            <StatusBadge status={mission.status} />
+            <TypeBadge type={mission.category === 'residential' ? 'Résidentiel' : 'Commercial'} />
+            <StatusBadge status={mission.display_status} />
           </div>
         </div>
-        <TruckIcon type={mission.truck} />
+        <TruckIcon type={mission.truck_type} />
       </div>
 
       {/* Info grid */}
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"8px 16px", marginBottom:16 }}>
-        <InfoRow icon="👤" label="Client" value={mission.client} />
-        <InfoRow icon="🚚" label="Véhicule" value={mission.truck} />
-        <InfoRow icon="📍" label="Départ" value={mission.from} />
-        <InfoRow icon="🏁" label="Arrivée" value={mission.to} />
+        <InfoRow icon="👤" label="Contact" value={mission.phone_number} />
+        <InfoRow icon="🚚" label="Véhicule" value={`${mission.truck_type} (${mission.size})`} />
+        <InfoRow icon="📍" label="Départ" value="Algiers Area" />
+        <InfoRow icon="🏁" label="Arrivée" value={`Dist: ${mission.distance} km`} />
         <InfoRow icon="📅" label="Date" value={mission.date} />
         <InfoRow icon="⏰" label="Heure" value={mission.time} />
       </div>
 
+      {/* Price */}
+      <div style={{ fontSize:16, fontWeight:900, color:C.darkYellow, marginBottom:12, fontFamily:"Poppins,sans-serif" }}>
+        {mission.price} DZD
+      </div>
+
       {/* Assigned to */}
-      {mission.assignedTo && (
+      {mission.taken_by && (
         <div style={{ fontSize:12, color:C.darkGrey, fontFamily:"Poppins,sans-serif", marginBottom:12, fontWeight:600 }}>
-          👷 Assigné à : <span style={{color:C.darkYellow}}>{mission.assignedTo}</span>
+          👷 {isMine ? "Assigné à : VOUS" : `Assigné à : ${mission.taken_by}`}
         </div>
       )}
 
@@ -164,12 +151,12 @@ const MissionCard = ({ mission, currentUser, onAccept, onStart, onComplete }) =>
             ✅ Accepter la mission
           </ActionBtn>
         )}
-        {isAccepted && isMine && (
+        {isMine && mission.status === 'accepted' && (
           <ActionBtn color="#1A56E8" textColor={C.white} onClick={()=>onStart(mission.id)}>
             ▶ Démarrer
           </ActionBtn>
         )}
-        {isInProgress && isMine && (
+        {isMine && mission.status === 'in_progress' && (
           <ActionBtn color="#188A18" textColor={C.white} onClick={()=>onComplete(mission.id)}>
             🏁 Terminer
           </ActionBtn>
@@ -203,110 +190,6 @@ const ActionBtn = ({ children, color, textColor, onClick }) => (
   >{children}</button>
 );
 
-// ── Login Screen ───────────────────────────────────────────────────────────────
-const LoginScreen = ({ onLogin }) => {
-  const [selected, setSelected] = useState("");
-  const [error, setError] = useState("");
-
-  const handleLogin = () => {
-    if (!selected) { setError("Veuillez sélectionner votre nom."); return; }
-    onLogin(selected);
-  };
-
-  return (
-    <div style={{
-      minHeight:"100vh", background:`linear-gradient(135deg, ${C.darkGrey} 0%, ${C.black} 60%)`,
-      display:"flex", alignItems:"center", justifyContent:"center",
-      fontFamily:"Poppins, sans-serif", position:"relative", overflow:"hidden",
-    }}>
-      {/* Decorative circles */}
-      {[...Array(3)].map((_,i)=>(
-        <div key={i} style={{
-          position:"absolute",
-          width: [400,250,180][i], height: [400,250,180][i],
-          borderRadius:"50%",
-          border:`2px solid ${C.yellow}${["18","22","30"][i]}`,
-          top: ["-100px","60%","20%"][i], left: ["-80px","70%","-40px"][i],
-          pointerEvents:"none",
-        }}/>
-      ))}
-
-      <div style={{
-        background:`rgba(255,255,255,0.04)`, backdropFilter:"blur(20px)",
-        border:`1px solid rgba(255,173,1,0.25)`,
-        borderRadius:24, padding:"48px 44px", width:420, maxWidth:"90vw",
-        boxShadow:"0 32px 80px rgba(0,0,0,0.5)", position:"relative",
-      }}>
-        {/* Logo area */}
-        <div style={{textAlign:"center", marginBottom:32}}>
-          <div style={{
-            display:"inline-flex", alignItems:"center", justifyContent:"center",
-            width:64, height:64, background:C.yellow, borderRadius:16, marginBottom:12,
-            fontSize:28,
-          }}>🚛</div>
-          <div style={{fontSize:26, fontWeight:900, color:C.white, letterSpacing:-0.5}}>
-            ORIZZONTE
-          </div>
-          <div style={{fontSize:12, color:C.yellow, fontWeight:700, letterSpacing:3, marginTop:4}}>
-            ESPACE EMPLOYÉ
-          </div>
-        </div>
-
-        <div style={{
-          width:"100%", height:1,
-          background:`linear-gradient(90deg, transparent, ${C.yellow}, transparent)`,
-          marginBottom:32,
-        }}/>
-
-        <div style={{marginBottom:8}}>
-          <label style={{fontSize:12, color:C.lightGrey, fontWeight:700, letterSpacing:1, display:"block", marginBottom:8}}>
-            VOTRE NOM
-          </label>
-          <select
-            value={selected}
-            onChange={e=>{ setSelected(e.target.value); setError(""); }}
-            style={{
-              width:"100%", padding:"14px 16px",
-              background:"rgba(255,255,255,0.08)", border:`1px solid rgba(255,173,1,0.35)`,
-              borderRadius:10, color:C.white, fontSize:14, fontFamily:"Poppins,sans-serif",
-              outline:"none", cursor:"pointer", appearance:"none",
-            }}
-          >
-            <option value="" style={{background:C.darkGrey}}>-- Sélectionnez votre nom --</option>
-            {MOCK_EMPLOYEES.map(e=>(
-              <option key={e} value={e} style={{background:C.darkGrey}}>{e}</option>
-            ))}
-          </select>
-        </div>
-
-        {error && (
-          <div style={{fontSize:12, color:"#FF6B6B", marginBottom:12, fontWeight:600}}>⚠ {error}</div>
-        )}
-
-        <button
-          onClick={handleLogin}
-          style={{
-            width:"100%", marginTop:20, padding:"15px",
-            background:`linear-gradient(135deg, ${C.yellow}, ${C.darkYellow})`,
-            border:"none", borderRadius:12, color:C.black,
-            fontSize:15, fontWeight:900, fontFamily:"Poppins,sans-serif",
-            cursor:"pointer", letterSpacing:1,
-            boxShadow:`0 8px 24px ${C.yellow}44`, transition:"all 0.2s",
-          }}
-          onMouseEnter={e=>e.currentTarget.style.transform="translateY(-2px)"}
-          onMouseLeave={e=>e.currentTarget.style.transform="translateY(0)"}
-        >
-          ACCÉDER AU DASHBOARD →
-        </button>
-
-        <div style={{textAlign:"center", marginTop:20, fontSize:11, color:"rgba(184,184,184,0.6)"}}>
-          © 2026 ORIZZONTE Global Services Inc.
-        </div>
-      </div>
-    </div>
-  );
-};
-
 // ── History Panel ──────────────────────────────────────────────────────────────
 const HistoryPanel = ({ items }) => {
   if (!items.length) return (
@@ -323,8 +206,10 @@ const HistoryPanel = ({ items }) => {
           boxShadow:"0 2px 8px rgba(0,0,0,0.05)", opacity:0.85,
         }}>
           <div>
-            <div style={{fontSize:14, fontWeight:700, color:C.darkGrey, fontFamily:"Poppins,sans-serif"}}>{m.title}</div>
-            <div style={{fontSize:12, color:C.lightGrey, fontFamily:"Poppins,sans-serif"}}>{m.date} • {m.client}</div>
+            <div style={{fontSize:14, fontWeight:700, color:C.darkGrey, fontFamily:"Poppins,sans-serif", textTransform: "uppercase"}}>
+                {m.shipment_type.replace(/_/g, ' ')}
+            </div>
+            <div style={{fontSize:12, color:C.lightGrey, fontFamily:"Poppins,sans-serif"}}>{m.date} • {m.phone_number}</div>
           </div>
           <span style={{
             background:"#E8F5E9", color:"#188A18",
@@ -338,49 +223,89 @@ const HistoryPanel = ({ items }) => {
 };
 
 // ── MAIN DASHBOARD ─────────────────────────────────────────────────────────────
-const Dashboard = ({ currentUser, onLogout }) => {
-  const [missions, setMissions]   = useState(INITIAL_MISSIONS);
-  const [completed, setCompleted] = useState([]);
+const Dashboard = () => {
+  const { user, logout } = useAuth();
+  const [missions, setMissions]   = useState([]);
+  const [loading, setLoading]     = useState(true);
   const [tab, setTab]             = useState("available"); // available | mine | history
   const [notification, setNotif]  = useState(null);
+
+  const currentUserFullName = user ? `${user.username}` : "Employé"; // Fallback to username
+
+  useEffect(() => {
+    fetchMissions();
+  }, []);
+
+  const fetchMissions = async () => {
+    setLoading(true);
+    try {
+      const [availRes, myRes] = await Promise.all([
+        api.get("/missions/available/"),
+        api.get("/missions/my/")
+      ]);
+      
+      // Merge: available missions + my full history
+      // Note: available missions might include missions I already accepted but aren't completed yet
+      // To avoid duplicates, we can use a Map by ID
+      const allMissionsMap = new Map();
+      availRes.data.forEach(m => allMissionsMap.set(m.id, m));
+      myRes.data.forEach(m => allMissionsMap.set(m.id, m));
+      
+      setMissions(Array.from(allMissionsMap.values()));
+    } catch (err) {
+      console.error("Failed to fetch missions:", err);
+      showNotif("❌ Erreur lors du chargement des missions.", "#FF6B6B");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const showNotif = (msg, color=C.yellow) => {
     setNotif({ msg, color });
     setTimeout(()=>setNotif(null), 3000);
   };
 
-  const handleAccept = (id) => {
-    setMissions(prev=>prev.map(m=>
-      m.id===id ? {...m, status:"accepted", assignedTo:currentUser} : m
-    ));
-    showNotif("✅ Mission acceptée ! Elle vous est maintenant assignée.", C.darkYellow);
-    setTab("mine");
+  const handleAccept = async (id) => {
+    try {
+      await api.post(`/missions/${id}/accept/`);
+      showNotif("✅ Mission acceptée ! Elle vous est maintenant assignée.", C.darkYellow);
+      fetchMissions();
+      setTab("mine");
+    } catch (err) {
+      showNotif("❌ Impossible d'accepter cette mission.", "#FF6B6B");
+    }
   };
 
-  const handleStart = (id) => {
-    setMissions(prev=>prev.map(m=>
-      m.id===id ? {...m, status:"inprogress"} : m
-    ));
-    showNotif("▶ Mission démarrée — bonne route !", "#1A56E8");
+  const handleStart = async (id) => {
+    try {
+      await api.post(`/missions/${id}/start/`);
+      showNotif("▶ Mission démarrée — bonne route !", "#1A56E8");
+      fetchMissions();
+    } catch (err) {
+      showNotif("❌ Impossible de démarrer la mission.", "#FF6B6B");
+    }
   };
 
-  const handleComplete = (id) => {
-    const mission = missions.find(m=>m.id===id);
-    setMissions(prev=>prev.filter(m=>m.id!==id));
-    setCompleted(prev=>[{...mission, status:"completed"}, ...prev]);
-    showNotif("🏁 Mission terminée avec succès !", "#188A18");
-    setTab("history");
+  const handleComplete = async (id) => {
+    try {
+      await api.post(`/missions/${id}/complete/`);
+      showNotif("🏁 Mission terminée avec succès !", "#188A18");
+      fetchMissions();
+      setTab("history");
+    } catch (err) {
+      showNotif("❌ Erreur lors de la clôture de la mission.", "#FF6B6B");
+    }
   };
 
   // Filtered views
-  const availableMissions  = missions.filter(m=>m.status==="available");
-  const myMissions         = missions.filter(m=>m.assignedTo===currentUser);
-  const urgentCount        = availableMissions.filter(m=>m.urgent).length;
-  const inProgressCount    = myMissions.filter(m=>m.status==="inprogress").length;
-
+  const availableMissions  = missions.filter(m=>m.display_status==="available");
+  const myMissions         = missions.filter(m=>m.taken_by && (m.taken_by === user?.username || m.taken_by.includes(user?.username))); // Flexible check
+  const completedMissions  = missions.filter(m=>m.display_status==="completed"); // Backend might exclude these from /available/
+  
   const displayList =
     tab==="available" ? availableMissions :
     tab==="mine"      ? myMissions :
+    tab==="history"   ? completedMissions :
     [];
 
   const TabBtn = ({ id, label, count }) => (
@@ -406,6 +331,12 @@ const Dashboard = ({ currentUser, onLogout }) => {
     </button>
   );
 
+  if (loading && missions.length === 0) {
+      return <div style={{display:"flex", justifyContent:"center", alignItems:"center", height:"100vh", background:C.bg}}>
+          <div style={{fontSize:20, fontWeight:700, color:C.darkGrey}}>Chargement...</div>
+      </div>;
+  }
+
   return (
     <div style={{ minHeight:"100vh", background:C.bg, fontFamily:"Poppins, sans-serif" }}>
 
@@ -413,7 +344,7 @@ const Dashboard = ({ currentUser, onLogout }) => {
       {notification && (
         <div style={{
           position:"fixed", top:20, right:20, zIndex:9999,
-          background:notification.color, color:C.black,
+          background:notification.color, color:notification.color === "#FF6B6B" ? C.white : C.black,
           padding:"14px 24px", borderRadius:12,
           fontFamily:"Poppins,sans-serif", fontWeight:700, fontSize:14,
           boxShadow:"0 8px 32px rgba(0,0,0,0.2)",
@@ -443,15 +374,6 @@ const Dashboard = ({ currentUser, onLogout }) => {
         </div>
 
         <div style={{display:"flex", alignItems:"center", gap:16}}>
-          {urgentCount>0 && (
-            <div style={{
-              background:C.yellow, color:C.black, padding:"6px 14px",
-              borderRadius:20, fontSize:12, fontWeight:800,
-              animation:"pulse 1.5s infinite",
-            }}>
-              ⚡ {urgentCount} mission(s) urgente(s)
-            </div>
-          )}
           <div style={{
             display:"flex", alignItems:"center", gap:8,
             background:"rgba(255,255,255,0.08)", borderRadius:10,
@@ -463,14 +385,14 @@ const Dashboard = ({ currentUser, onLogout }) => {
               display:"flex", alignItems:"center", justifyContent:"center",
               fontSize:14, fontWeight:900, color:C.black,
             }}>
-              {currentUser.split(" ").map(w=>w[0]).join("").slice(0,2)}
+              {user?.username?.[0]?.toUpperCase() || "U"}
             </div>
             <div>
-              <div style={{fontSize:12, fontWeight:700, color:C.white}}>{currentUser}</div>
+              <div style={{fontSize:12, fontWeight:700, color:C.white}}>{user?.username}</div>
               <div style={{fontSize:10, color:C.lightGrey}}>Employé</div>
             </div>
           </div>
-          <button onClick={onLogout} style={{
+          <button onClick={logout} style={{
             background:"transparent", border:`1px solid rgba(255,255,255,0.2)`,
             color:C.lightGrey, padding:"8px 16px", borderRadius:8,
             fontSize:12, fontWeight:600, cursor:"pointer",
@@ -499,33 +421,32 @@ const Dashboard = ({ currentUser, onLogout }) => {
           }}/>
           <div>
             <div style={{fontSize:24, fontWeight:900, color:C.black}}>
-              Bienvenue, {currentUser.split(" ")[0]} 👋
+              Bienvenue, {user?.username} 👋
             </div>
             <div style={{fontSize:14, color:"rgba(0,0,0,0.65)", fontWeight:600, marginTop:4}}>
-              Moving your world with care and precision.
+              Prêt pour une nouvelle mission aujourd'hui ?
             </div>
           </div>
           <div style={{fontSize:48}}>🚛</div>
         </div>
 
         {/* ── Stats ── */}
-        <div style={{display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16, marginBottom:32}}>
-          <StatCard label="Missions disponibles" value={availableMissions.length} icon="📋" accent={C.yellow} />
+        <div style={{display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:16, marginBottom:32}}>
+          <StatCard label="Disponibles" value={availableMissions.length} icon="📋" accent={C.yellow} />
           <StatCard label="Mes missions" value={myMissions.length} icon="👷" accent={C.darkYellow} />
-          <StatCard label="En cours" value={inProgressCount} icon="▶" accent="#1A56E8" />
-          <StatCard label="Terminées" value={completed.length} icon="✅" accent="#188A18" />
+          <StatCard label="Terminées" value={completedMissions.length} icon="✅" accent="#188A18" />
         </div>
 
         {/* ── Tabs ── */}
         <div style={{display:"flex", gap:10, marginBottom:24, flexWrap:"wrap"}}>
           <TabBtn id="available" label="🟡 Disponibles" count={availableMissions.length} />
           <TabBtn id="mine"      label="👷 Mes Missions" count={myMissions.length} />
-          <TabBtn id="history"   label="📂 Historique" count={completed.length} />
+          <TabBtn id="history"   label="📂 Historique" count={completedMissions.length} />
         </div>
 
         {/* ── Content ── */}
         {tab==="history" ? (
-          <HistoryPanel items={completed} />
+          <HistoryPanel items={completedMissions} />
         ) : displayList.length===0 ? (
           <div style={{
             textAlign:"center", padding:"60px 0",
@@ -537,7 +458,7 @@ const Dashboard = ({ currentUser, onLogout }) => {
             <div style={{fontSize:16, fontWeight:700}}>
               {tab==="available"
                 ? "Aucune mission disponible pour l'instant."
-                : "Vous n'avez aucune mission assignée."}
+                : "Vous n'avez aucune mission active."}
             </div>
           </div>
         ) : (
@@ -550,7 +471,7 @@ const Dashboard = ({ currentUser, onLogout }) => {
               <MissionCard
                 key={m.id}
                 mission={m}
-                currentUser={currentUser}
+                currentUser={user?.username}
                 onAccept={handleAccept}
                 onStart={handleStart}
                 onComplete={handleComplete}
@@ -574,15 +495,9 @@ const Dashboard = ({ currentUser, onLogout }) => {
         * { box-sizing: border-box; margin:0; padding:0; }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
         @keyframes slideIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
-        select option { background: #544E51; color: white; }
       `}</style>
     </div>
   );
 };
 
-// ── Root App ────────────────────────────────────────────────────────────────────
-export default function App() {
-  const [user, setUser] = useState(null);
-  if (!user) return <LoginScreen onLogin={setUser} />;
-  return <Dashboard currentUser={user} onLogout={()=>setUser(null)} />;
-}
+export default Dashboard;

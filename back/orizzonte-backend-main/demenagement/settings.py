@@ -27,14 +27,17 @@ INSTALLED_APPS = [
     # Third-party
     'rest_framework',
     'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',  # Required for logout/blacklisting
+    'rest_framework_simplejwt.token_blacklist',
+    'corsheaders',
 
     # Local apps
     'authentication',
     'accounts',
+    'missions',
 ]
 AUTH_USER_MODEL = 'accounts.User'
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -144,7 +147,9 @@ SIMPLE_JWT = {
 }
 
 
+CORS_ALLOW_ALL_ORIGINS = True  # For development; restrict in production
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
+CORS_ALLOW_CREDENTIALS = True

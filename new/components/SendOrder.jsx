@@ -17,19 +17,26 @@ function SendOrder() {
   const handleIncrease = () => setQuantity((prev) => prev + 1);
 
   const handleSendOrder = () => {
+    // Algerian phone regex: 10 digits starting with 05, 06, or 07
+    const phoneRegex = /^0[567]\d{8}$/;
+
     if (!phoneNumber || !contactMethod) {
       setErrorMsg("Please provide your phone number and select a confirmation method.");
       return;
     }
 
-    const finalOrder = {
-      ...orderData,
-      cargoDetails,
+    if (!phoneRegex.test(phoneNumber)) {
+      setErrorMsg("Invalid phone number. It must be 10 digits and start with 05, 06, or 07.");
+      return;
+    }
+
+    updateOrderData({
+      commodity: cargoDetails,
       helpers: quantity,
       phoneNumber,
       confirmationMethod: contactMethod
-    };
-    console.log("Final Order Data:", finalOrder);
+    });
+    console.log("Final Order Data updated in context");
     // Here you would typically send finalOrder to an API
     navigate('/order-confirmation');
   };
@@ -143,10 +150,14 @@ function SendOrder() {
                 <input
                   className="phone-input"
                   type="tel"
-                  placeholder="X X X X X X X X"
+                  placeholder="06 XX XX XX XX"
+                  maxLength={10}
                   aria-label="Phone number"
                   value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/g, "");
+                    if (val.length <= 10) setPhoneNumber(val);
+                  }}
                 />
               </div>
 
